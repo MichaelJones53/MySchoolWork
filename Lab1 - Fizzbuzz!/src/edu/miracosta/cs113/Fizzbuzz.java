@@ -9,12 +9,10 @@ package edu.miracosta.cs113;
  */
 public class Fizzbuzz {
 	/**
-	 * Tester for random assistant theory checker
+	 * Driver for Fizzbuzz program assignment
 	 * 
 	 * @param args
-	 *            command line arguments (unnused)
-	 * @param NUMBER_CAP
-	 * 		      constant defined for number being counted to		
+	 *            command line arguments (unnused)	
 	 */
 	public static void main(String[] args) {
 		final int NUMBER_CAP = 100;

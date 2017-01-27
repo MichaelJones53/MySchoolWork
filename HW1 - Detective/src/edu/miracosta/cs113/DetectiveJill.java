@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class DetectiveJill {
 	/**
-	 * Tester for increasing number assistant theory checker
+	 * Driver for increasing-number theory checker
 	 * 
 	 * @param args
 	 *            command line arguments (unnused)
@@ -38,7 +38,7 @@ public class DetectiveJill {
 			//check answer
 			solution = jack.checkAnswer(weapon, location, murder);
 			
-			//Increment wrong answer
+			//Increment wrong answer identified by JackAssistant
 			if(solution == 0){
 				isGuessing= false;
 			}else if(solution == 1){
@@ -51,6 +51,8 @@ public class DetectiveJill {
 			
 		}
 		answer = new Theory(weapon, location, murder);
+		
+		//display results to user
 		System.out.println("Total Checks = " + jack.getTimesAsked() + ", Solution = " + answer);
 
 		if (jack.getTimesAsked() > 20) {

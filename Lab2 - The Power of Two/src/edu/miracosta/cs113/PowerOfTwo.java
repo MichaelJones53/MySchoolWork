@@ -23,6 +23,7 @@ public class PowerOfTwo {
 		
 		System.out.println("Enter a number to see if it is of a power of two");
 		enteredNumber = keyboard.nextDouble();
+		keyboard.close();
 		
 		
 		System.out.println(isPrime(enteredNumber));
@@ -34,9 +35,14 @@ public class PowerOfTwo {
 			isSquared = false;
 		}else if(number == 1){
 			isSquared = true;
-			//TODO- Finish method  - not functioning
+		}else{
+			for(int i = 2; i<number; i++){
+				if(number % i == 0){
+					isSquared = true;
+					//not workig.  comes out true for every even number
+				}
+			}
 		}
-		
 	
 		return isSquared;
 	}

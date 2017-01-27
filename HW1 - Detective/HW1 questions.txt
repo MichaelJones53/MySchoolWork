@@ -1,0 +1,19 @@
+****RandomClue tester*****
+How often do you get a solution in fewer than 20 guesses? Does this change depending on the
+theory you test (1, 2, 3)?
+
+--- I never received a solution within 20 guesses.  There seemed to be no relationship between which test(1,2,3) and how many guesses it took to get to the answer.
+
+What is good or bad about this strategy?
+
+---There is nothing good about this strategy.  Theoretically, it could guess forever and never give you the right answer, since it just ramdomly picks numbers. 
+
+****DetectiveJill tester*****
+How often do you get a solution in fewer than 20 guesses? Does this change depending on the
+theory you test (1, 2, 3)?
+
+--- I always receive an answer that is 20 guesses or less, regardless of the test being run.  This is because DetectiveJill increments the incorrect answer, thus systematically solving the problem 
+
+What is good or bad about this strategy?
+
+---I think this is the best strategy considering the information being provided.  It is good because all guesses are unique and "smart", as they are learning from the information be provied back to it by the AssistantJack.solutions() method.  

@@ -1,0 +1,2 @@
+Question:  	Did the results of the program suprise me?
+Answer:		The results did not suprise me.  If you divid both key factors by 5, you end up with a comparison of y1 = 20N vs. y2 = n^2.  so, once n exceeded 20, y2 exponentially exceed y1.    

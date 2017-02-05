@@ -1,0 +1,83 @@
+a) 	for	(int i	=	0;	i	<	n;	i++)	{	
+		for	(int	j	=	0;	j	<	n;	j++)	{	
+			System.out.println(i	+	“	“	+	j);	
+		}	
+	}	
+	
+	line 1 is the initialize, n+1 comparisons, and n increments (2n+2)
+	line 2 is the initialize, n comparisons, and n increments (2n+2)
+	line 3 is  2 concantanates and a println (3)
+	
+	so, t(n) =  3(2n+2)(2n+2) = (6n+6)(2n+2) = 12n^2 +24n + 12
+	c = 12 + 24/(Nnot) + 12/(Nnot^2)
+	if Nnot = 2, then c = 12 + 6 + 3 = 21
+	then 21(n)^2 > 12n^2 +24n + 12  for n > 2
+	reduces to O(N^2)
+	
+b. for (int i = 0; i < n; i++){
+		for (int j = 0; j < 2; j++){
+			System.out.println(i + "  " + j);
+		}
+	}
+	line 13 is the initialize, n+1 comparisons, and n increments (2n+2)
+	line 14 is the initialize, 3 comparisons, and 3 increments (7)
+	line 15 is  2 concantanates and a println (3)
+
+	so, t(n) = (2n+2)(7)(3) = 21(2n+1) = 42n+21
+	c = 42 + 21/Nnot
+	if Nnot = 7, then c = 42 + 21/7 = 45
+	then 45(n) >42n + 21 for n > 7
+	reduces to O(N)
+	
+	
+	
+c. for (int i = 0; i < n; i++){
+		for (int j = n - 1; j >= i; j--){
+			System.out.println(i + "  " + j);
+		}
+	}
+	
+	line 34 is the initialize, n+1 comparisons, and n increments (2n+2)
+	line 35 is the initialize, n/2 comparisons, and n/2 decrements ((n/2)+(N/2)+(2/2) = n+1)
+	line 35 is  2 concantanates and a println (3)
+	so, t(n) = (2n+2)(n+1)(3) = 6n^2 +12n + 6
+	c = 6 + 12/Nnot + 6/(Nnot^2)
+	if Nnot = 1 then c = 24
+	then 24(n)^2 > 6n^2 +12n + 6 for n > 6
+	reduces to O(n^2)
+	
+d. for (int i = 1; i < n; i++){
+		for (int j = 0; j < i; j++){
+			if (j % i == 0){
+				System.out.println(i + "  " + j);
+			}
+		}
+	}
+	
+	line 49 is the initialize, n+1 comparisons, and n increments (2n+2)
+	line 50 is the initialize, n/2 comparisons, and n/2 increments ((n/2)+(N/2)+(2/2) = n+1)
+	line 51 is 1 calculation and 1 comparisons (2)
+	line 52 is  2 concantanates and a println, but will only be executed < 1/2 the time (3/2)
+		(im not really sure how to calculate the occurance of i % j == 0, but for numbers greater 
+		than 4, it cannot be more than half.  the reality is that is is much smaller 
+		than half, but for this scenario, it is trivial.)
+	so, t(n) = (2n+2)(n+1)(2)(3/2) = (4n^2 +3n + 3)(3) = 12n^2 + 9n + 9
+	c = 12 + 9/Nnot + 9/Nnot^2
+	if Nnot = 3, then c = 16
+	then 16n^2 > 12n^2 + 9n + 9 for n > 3
+	reduces to O(n^2)
+	
+	***i think this is what the assignment was asking for.  i do not truely understand why 
+	i care to calculate a c, or why i want to use a particular value of n if it just gets 
+	reduced for the Big-O notation anyway.  So i just used the most convenienc value of n for 
+	my calculations.***
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

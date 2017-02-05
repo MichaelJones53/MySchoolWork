@@ -21,6 +21,7 @@ public class SquareTest {
 		testComputeArea(value);
 		testComputePerimeter(value);
 		testToString(value);
+		
 	}
 
 	//checks methods if entered value is a negative number

@@ -25,15 +25,26 @@ public class Lab5Driver {
 		myList.add("Tom");
 		myList.add("Sara");
 		myList.add("Bart");
+		myList.add("Jerry");
 		myList.add("Sara");
 		
+		//display current list to user
+		System.out.println("Displaying the initial List");
 		System.out.println(myList);
 		//test replace method
+		System.out.println("Testing replace method.  replacing all instances of \"Sara\" with \"Jill\"");
 		replace(myList, "Sara", "Jill");	
 		System.out.println(myList);
 		
-		//prove they worked
+		//test delete method
+		System.out.println("testing delete method.  Deleting the first occurance of \"Jill\"");
+		delete(myList, "Jill");
+		System.out.println(myList);
 		
+		//test delete method end edge case
+		System.out.println("testing delete method.  Deleting the other occurance of \"Jill\"");
+		delete(myList, "Jill");
+		System.out.println(myList);
 		
 	}
 	
@@ -55,8 +66,14 @@ public class Lab5Driver {
 	  * Deletes the first occurrence of target in aList
 	  */
 	 public static void delete(ArrayList<String> aList, String target){
-		 
-		 
+
+		 for(int i = 0; i< aList.size(); i++){
+			 if(aList.get(i).equals(target)){
+				 aList.remove(i);
+				 i = aList.size();
+			 }
+		}
+
 	 }
 }
 

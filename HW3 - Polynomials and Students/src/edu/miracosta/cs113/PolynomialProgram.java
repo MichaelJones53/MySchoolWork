@@ -1,0 +1,78 @@
+package edu.miracosta.cs113;
+
+import java.util.InputMismatchException;
+import java.util.LinkedList;
+import java.util.Scanner;
+
+/**
+ * PolynomialProgram.java : Program for polynomial problem
+ * 
+ * @author Michael Jones
+ * @version 1.0
+ *
+ */
+public class PolynomialProgram {
+
+	private static PolynomialList<Term> polynomialList = new PolynomialList<>();
+	/**
+	 * Tester for polynomial program
+	 * 
+	 * @param args
+	 *            command line arguments (unnused)
+	 */
+	public static void main(String[] args) {
+
+		//create linkedList for polynomials
+		
+		
+		boolean isRunning = true;
+		
+		while(isRunning){
+			//prompt user to enter coefficient or quit
+			Term newTerm = readPolynomialValue();
+			polynomialList.add(newTerm);
+
+			System.out.println(polynomialList.toString());
+			System.out.println(polynomialList.getSize());
+		
+			//display polynomial to user
+		
+		}
+		
+		
+	
+		
+	}
+	
+	
+	
+	private static Term readPolynomialValue(){
+		int tempCoefficient = 0;
+		int tempExponent = 0;
+		
+		System.out.println("Enter the integer value coefficinet of the term to add to the polynomial.  Enter anything else to quit.");
+		tempCoefficient = readValue();
+		
+		System.out.println("Enter the integer value of the exponent of the term to add to the polynomial.  Enter anything else to quit.");
+		tempExponent = readValue();
+		
+		return new Term(tempCoefficient, tempExponent);
+	}
+	
+	
+	
+	private static int readValue(){
+		Scanner keyboard = new Scanner(System.in);
+		int newValue = 0;
+		
+		try{
+			newValue = keyboard.nextInt();
+		}catch(InputMismatchException e){
+			System.exit(0);
+		}
+		return newValue;
+	}
+	
+
+
+}

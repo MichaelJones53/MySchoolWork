@@ -32,20 +32,18 @@ public class PolynomialProgram {
 			Term newTerm = readPolynomialValue();
 			polynomialList.add(newTerm);
 
-			System.out.println(polynomialList.toString());
-			System.out.println(polynomialList.getSize());
-		
 			//display polynomial to user
-		
+			System.out.println(polynomialList.toString());
 		}
-		
-		
-	
-		
 	}
 	
 	
-	
+	/**
+	 * Reads polynomial value from user.  
+	 *
+	 *@return 
+	 *		returns new Term object of entered values 
+	 */
 	private static Term readPolynomialValue(){
 		int tempCoefficient = 0;
 		int tempExponent = 0;
@@ -60,7 +58,12 @@ public class PolynomialProgram {
 	}
 	
 	
-	
+	/**
+	 * Reads in integer vaules from user.  System exit if non-integer entered
+	 *
+	 *@return 
+	 *		returns integer value inputted by user. 
+	 */
 	private static int readValue(){
 		Scanner keyboard = new Scanner(System.in);
 		int newValue = 0;

@@ -43,7 +43,12 @@ public class StudentList<E extends Student> {
 		
 	}
 	
-	//addFirst
+	/**
+	 * adds new element to beginning of list
+	 * 
+	 * @param newStudent
+	 * 			Object to be added to the list 
+	 */
 	public void addFirst(E newStudent){
 		if(size == 0){
 			head = new Node<E>(newStudent);
@@ -55,7 +60,12 @@ public class StudentList<E extends Student> {
 		size++;
 	}
 	
-	//addEnd
+	/**
+	 * adds new element to end of list
+	 * 
+	 * @param newStudent
+	 * 			Object to be added to the list 
+	 */
 	public void addEnd(E newStudent){
 		if(size == 0){
 			head = new Node<E>(newStudent);
@@ -70,23 +80,47 @@ public class StudentList<E extends Student> {
 	}
 	
 	
-	//removeFirst
-	public void removeFirst(){
+	/**
+	 * removes ad returns first element of list.  If list is empty, returns null.
+	 * 
+	 *  * @returns
+	 * 			 returns removed element in list. returns null if 
+	 * 			list is empty.
+	 */
+	public E removeFirst(){
+		Node<E> tempNode = head;
 		if(size > 0){
 			head = head.next;
+			size--;
+			return tempNode.data;
+			
 		}
-		size--;
+		return null;
 	}
 	
-	//removeSpecific
-	public void removeSpecific(E remove){
+	/**
+	 * removes and returns specific element in list
+	 * 
+	 * @param newStudent
+	 * 			Object to be added to the list 
+	 * @returns
+	 * 			 returns specific element in list. returns null if 
+	 * 			list is empty or specified element is not found.
+	 */
+	public E removeSpecific(E remove){
 		Node<E> tempNode = head;
+		Node<E> removingNode = null;
 		boolean isFound = false;
-		if(head.data.equals(remove)){
+		if(size == 0){
+			return null;
+		}else if(head.data.equals(remove)){
+			removingNode = head;
+			isFound = true;
 			removeFirst();
 		}else if(size>0){
 			while(tempNode.next != null && isFound == false){
 				if(tempNode.next.data.equals(remove)){
+					removingNode = tempNode.next;
 					tempNode.next = tempNode.next.next;
 					isFound = true;
 					size--;
@@ -96,19 +130,38 @@ public class StudentList<E extends Student> {
 				}
 			}
 		}
-		
+		if(!isFound){
+			return null;
+		}else{
+			return removingNode.data;
+		}
 	}
-
+	/**
+	 * accessor method for list size
+	 * 
+	 * @return
+	 * 		    returns list size as integer
+	 */
 	public int getSize(){
 		return size;
 	}
+	/**
+	 * String representation of list
+
+	 * @return 
+	 * 		returns string representation of list
+	 */
 	public String toString(){
 		String studentList = "";
 		for(int i= 0; i< size; i++){
-			studentList += this.get(i).toString()+", ";
+			studentList += this.get(i).toString();
+			if( i != size-1){
+				studentList += ", ";
+			}
 		}
 		return studentList;
 	}
+	
 	
 	
 	private static class Node<E> {

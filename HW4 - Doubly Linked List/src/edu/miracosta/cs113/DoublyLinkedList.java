@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-import edu.miracosta.cs113.StudentList.Node;
 
 
 public class DoublyLinkedList<E>{
@@ -18,7 +17,14 @@ public class DoublyLinkedList<E>{
 	
 	
 	
-	//public void add(int index, E obj) Inserts object obj into the list at position index
+	/**
+	 * adds new object to at provided index
+	 * 
+	 * @param index
+	 * 			index to add new list item at
+	 * @param obj
+	 * 			object to be added to list 
+	 */
 	public void add(int index, E obj){
 		if(index >= 0 && index <= size){
 			if(index == 0){
@@ -83,7 +89,15 @@ public class DoublyLinkedList<E>{
 		size++;
 	}
 	
-	//public E get(int index) Returns the item at position Index
+	
+	/**
+	 * Gets  item at position Index
+	 * 
+	 * @param index
+	 * 			location of object data to retreive
+	 * @return
+	 * 		Returns the item at position Index 
+	 */
 	public E get(int index){
 		if(index >= 0 && index < size){
 			Iterator<E> itr = iterator();

@@ -36,6 +36,7 @@ public class DoublyLinkedList<E>{
 				newNode.prev = tempPrev;
 				current.prev = newNode;
 				newNode.next = current;
+				size++;
 			}
 		}else{
 			throw new NoSuchElementException();
@@ -83,6 +84,16 @@ public class DoublyLinkedList<E>{
 	}
 	
 	//public E get(int index) Returns the item at position Index
+	public E get(int index){
+		if(index >= 0 && index < size){
+			Iterator<E> itr = iterator();
+			for(int i = 0; i< index - 1 ; i++){
+				itr.next();
+			}
+			return itr.next();
+		}
+		return null;
+	}
 	
 	//public E getFirst() Gets the first element in the list.  Throws NoSuchElementException if the list is empty
 	public E getFirst(){
@@ -101,7 +112,17 @@ public class DoublyLinkedList<E>{
 		}
 	}
 	//public boolean remove(E obj) Removes the first occurrence of object obj from the list.  Returns True if the list contained object obj, otherwise returns false.  ***use its equals method***
-	
+	public boolean remove(E obj){
+		boolean found = false;
+		Node<E> tempNode = head;
+		while(tempNode != null && !found){
+			if(tempNode.data.equals(obj)){
+				found = true;
+			}
+			tempNode = tempNode.next;
+		}
+		return found;
+	}
 	
 	
 	

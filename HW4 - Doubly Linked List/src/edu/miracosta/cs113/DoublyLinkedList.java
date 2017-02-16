@@ -177,7 +177,7 @@ public class DoublyLinkedList<E>{
 				index = size;
 				nextNode = null;
 			}else{
-				for(index = 0; index < newIndex; nextIndex()){
+				for(index = 0; index < newIndex; index++){
 					nextNode = nextNode.next;
 				}
 			}
@@ -204,13 +204,6 @@ public class DoublyLinkedList<E>{
 				newNode.next = nextNode;
 				nextNode.prev = newNode;
 			}
-			
-			//add head
-			
-			//add tail
-			
-			//add middle
-			
 			size++;
 			index++;
 			lastItemReturned = null;
@@ -234,14 +227,14 @@ public class DoublyLinkedList<E>{
 			}else{
 				nextNode = nextNode.next;
 				lastItemReturned = nextNode.prev;
-				nextIndex();
+				index++;
 				return lastItemReturned.data;
 			}
 		}
 
 		@Override
 		public int nextIndex() {
-			return index++;
+			return index + 1;
 		}
 
 		@Override
@@ -260,26 +253,40 @@ public class DoublyLinkedList<E>{
 
 		@Override
 		public int previousIndex() {
-			// TODO Auto-generated method stub
-			return index--;
+			
+			return index - 1;
 		}
 
 		@Override
 		public void remove() {
-			// TODO Auto-generated method stub
-			
+			if(lastItemReturned == null){
+				throw new IllegalStateException();
+			}
+			//removing final node
+			if(lastItemReturned == head && tail == head){
+				head = null;
+				tail = null;
+				nextNode = null;
+			}else if(lastItemReturned == head){
+				head = head.next;
+				nextNode = head;
+			}else if(lastItemReturned == tail){
+				tail.prev.next = null;
+				tail = tail.prev;
+				nextNode = null;
+				
+			}else if(lastItemReturned == nextNode){
+				//moved backwards through list
+				nextNode.prev.next = nextNode.next;
+				nextNode.next.prev = lastItemReturned.prev;
+			}else{
+				//moved forward through list
+				lastItemReturned.prev.next = nextNode;
+				nextNode.prev = lastItemReturned.prev;
+			}
+			size--;
+			lastItemReturned = null;
 		}
-
-		@Override
-		public void set(E e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		
-		
-		
-		
 	}
 	private static class Node<E> {
 		 private E data;

@@ -157,33 +157,130 @@ public class DoublyLinkedList<E>{
 	 */
 	// create iterator
 	public Iterator<E> iterator(){
-		Node<E> location = new Node<E>();
-		location.next = head;
-		location.prev = tail;
-		Iterator<E> itr = new Iterator<E>(){
-			
-			
-			@Override
-			public boolean hasNext() {
-				if(location.next != null){
-					return true;
-				}else{
-					return false;
+	
+		return null;
+	}
+	private class DoubleListIterator implements ListIterator<E>{
+
+		private Node<E> nextNode;
+		private Node<E> lastItemReturned = null;
+		private int index = 0;
+		
+		public DoubleListIterator(){
+			nextNode = head;
+		}
+		
+		public DoubleListIterator(int newIndex){
+			if(newIndex < 0 || newIndex > size){
+				throw new NoSuchElementException("Invalid index " + newIndex);
+			}else if(newIndex == size){
+				index = size;
+				nextNode = null;
+			}else{
+				for(index = 0; index < newIndex; nextIndex()){
+					nextNode = nextNode.next;
 				}
 			}
-			
-			
-			@Override
-			public E next() {
-				location.next = location.next.next;
-				location.prev = location.prev.next;
-				
-				return location.prev.data;
+		}
+		
+		@Override
+		public void add(E e) {
+			Node<E> newNode = new Node<E>(e);
+			//add empty
+			if(head == null){
+				head =  newNode;
+				tail = head;
+			}else if(nextNode == head){
+				newNode.next = nextNode;
+				nextNode.prev = newNode;
+				head = newNode;
+			}else if(nextNode == null){
+				tail.next = newNode;
+				newNode.prev = tail;
+				tail = newNode;
+			}else{
+				newNode.prev = nextNode.prev;
+				nextNode.prev.next = newNode;
+				newNode.next = nextNode;
+				nextNode.prev = newNode;
 			}
-		};
-		return itr;
+			
+			//add head
+			
+			//add tail
+			
+			//add middle
+			
+			size++;
+			index++;
+			lastItemReturned = null;
+			
+		}
+
+		@Override
+		public boolean hasNext() {
+			return nextNode != null;
+		}
+
+		@Override
+		public boolean hasPrevious() {
+			return (nextNode == null && size != 0 || nextNode.prev != null);
+		}
+
+		@Override
+		public E next() {
+			if(!hasNext()){
+				throw new NoSuchElementException();
+			}else{
+				nextNode = nextNode.next;
+				lastItemReturned = nextNode.prev;
+				nextIndex();
+				return lastItemReturned.data;
+			}
+		}
+
+		@Override
+		public int nextIndex() {
+			return index++;
+		}
+
+		@Override
+		public E previous() {
+			if(!hasPrevious()){
+				throw new NoSuchElementException();
+			}else if(nextNode == null){
+				nextNode = tail;
+			}else{
+				nextNode = nextNode.prev;
+			}
+			lastItemReturned = nextNode;
+			index--;
+			return lastItemReturned.data;
+		}
+
+		@Override
+		public int previousIndex() {
+			// TODO Auto-generated method stub
+			return index--;
+		}
+
+		@Override
+		public void remove() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void set(E e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+		
+		
+		
 	}
-	
 	private static class Node<E> {
 		 private E data;
 		 private Node<E> next = null;

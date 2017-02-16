@@ -26,27 +26,9 @@ public class DoublyLinkedList<E>{
 	 * 			object to be added to list 
 	 */
 	public void add(int index, E obj){
-		if(index >= 0 && index <= size){
-			if(index == 0){
-				addFirst(obj);
-			}else if(index == size){
-				addLast(obj);
-			}else{
-				Node<E> current = head;
-				for(int i = 0; i< index; i++){
-					current = current.next;
-				};
-				Node<E> newNode = new Node<E>(obj);
-				Node<E> tempPrev = current.prev;
-				tempPrev.next = newNode;
-				newNode.prev = tempPrev;
-				current.prev = newNode;
-				newNode.next = current;
-				size++;
-			}
-		}else{
-			throw new NoSuchElementException();
-		}
+		DoubleListIterator itr = new DoubleListIterator(index);
+		
+		itr.add(obj);
 	}
 	
 	
@@ -56,37 +38,23 @@ public class DoublyLinkedList<E>{
 	 * @param newItem
 	 * 			Object to be added to the list 
 	 */
-	public void addFirst(E newItem){
-		if(head == null){
-			head = new Node<E>(newItem);
-			tail = head;
-		}else{
-			Node<E> tempNode = head;
-			head = new Node<E>(newItem);
-			head.next = tempNode;
-			
-		}
-		size++;
+	public void addFirst(E obj){
+		DoubleListIterator itr = new DoubleListIterator();
+		itr.add(obj);
 	}
 	
 	
 	
-	//public void addLast((E obj) adds object obj to the end of the list
+	
 	/**
 	 * adds new element to end of list
 	 * 
 	 * @param newItem
 	 * 			Object to be added to the list 
 	 */
-	public void addLast(E newItem){
-		if(size == 0){
-			head = new Node<E>(newItem);
-			tail = head;
-		}else{
-			tail.next = new Node<E>(newItem);
-			tail = tail.next;
-		}
-		size++;
+	public void addLast(E obj){
+		DoubleListIterator itr = new DoubleListIterator(size);
+		itr.add(obj);
 	}
 	
 	
@@ -99,21 +67,27 @@ public class DoublyLinkedList<E>{
 	 * 		Returns the item at position Index 
 	 */
 	public E get(int index){
-		if(index >= 0 && index < size){
-			Iterator<E> itr = iterator();
-			for(int i = 0; i< index - 1 ; i++){
-				itr.next();
-			}
-			return itr.next();
-		}
-		return null;
+		DoubleListIterator itr = new DoubleListIterator(index);
+		return itr.next();
+		
 	}
 	
-	//public E getFirst() Gets the first element in the list.  Throws NoSuchElementException if the list is empty
+	/**
+	 * Gets first item in list
+	 * 
+	 * @return
+	 * 		Returns the first element in the list.  Throws NoSuchElementException if the list is empty
+	 */
 	public E getFirst(){
 		return head.data;
 	}
-	//public E getLast() Gets the last element in the list.  Throws NoSuchElementException if the list is empty
+	
+	/**
+	 * Gets last item in list
+	 * 
+	 * @return
+	 * 		Returns the last element in the list.  Throws NoSuchElementException if the list is empty
+	 */
 	public E getLast(){
 		if(tail != null){
 			return tail.data;
@@ -121,18 +95,25 @@ public class DoublyLinkedList<E>{
 			throw new NoSuchElementException();
 		}
 	}
-	//public boolean remove(E obj) Removes the first occurrence of object obj from the list.  Returns True if the list contained object obj, otherwise returns false.  ***use its equals method***
+	
+	/**
+	 * Removes first occurrence of pass object if one is in the list
+	 * 
+	 * @return
+	 * 		Returns True if the list contained object obj, otherwise returns false
+	 */
 	public boolean remove(E obj){
-		boolean found = false;
-		Node<E> tempNode = head;
-		while(tempNode != null && !found){
-			if(tempNode.data.equals(obj)){
-				found = true;
+		DoubleListIterator itr = new DoubleListIterator();
+		boolean isFound = false;
+		while(isFound == false && itr.hasNext()){
+			if(itr.next().equals(obj)){
+				isFound = true;
+				itr.remove();
 			}
-			tempNode = tempNode.next;
 		}
-		return found;
+		return isFound;
 	}
+	
 	/**
 	 * accessor method for list size
 	 * 
@@ -155,31 +136,47 @@ public class DoublyLinkedList<E>{
 	}
 	private class DoubleListIterator implements ListIterator<E>{
 
-		private Node<E> nextNode;
+		private Node<E> nextNode = head;
 		private Node<E> lastItemReturned = null;
 		private int index = 0;
-		
+		// Constructors
+		/**  
+		 * The default constructor.
+		*/
 		public DoubleListIterator(){
-			nextNode = head;
 		}
-		
+	
+		/**  
+		 * Constructor that creates iterator and identified index.
+		 * @param newIndex
+		 * 		Index to iterate iterator to at instantation
+		*/
 		public DoubleListIterator(int newIndex){
+			
 			if(newIndex < 0 || newIndex > size){
+				
 				throw new NoSuchElementException("Invalid index " + newIndex);
 			}else if(newIndex == size){
 				index = size;
 				nextNode = null;
 			}else{
+				
 				for(index = 0; index < newIndex; index++){
 					nextNode = nextNode.next;
 				}
 			}
+			
 		}
-		
+		/**
+		 * adds new element to list
+		 * 
+		 * @param e
+		 * 			Object to be added to the list 
+		 */
 		@Override
 		public void add(E e) {
 			Node<E> newNode = new Node<E>(e);
-			//add empty
+			
 			if(head == null){
 				head =  newNode;
 				tail = head;
@@ -200,19 +197,34 @@ public class DoublyLinkedList<E>{
 			size++;
 			index++;
 			lastItemReturned = null;
-			
 		}
-
+		/**
+		 * identifies if there is another item in the list 
+		 * 
+		 * @return
+		 * 		Returns True if list contains a next item, otherwise false 
+		 */
 		@Override
 		public boolean hasNext() {
 			return nextNode != null;
 		}
-
+		/**
+		 * identifies if there is a previous item in the list 
+		 * 
+		 * @return
+		 * 		Returns True if list contains a previous item, otherwise false 
+		 */
 		@Override
 		public boolean hasPrevious() {
 			return (nextNode == null && size != 0 || nextNode.prev != null);
 		}
 
+		/**
+		 * Advances the iterator to the next position 
+		 * 
+		 * @return
+		 * 		Returns the data of the node being traversed over.  Throws NoSuchElementException if next is null
+		 */
 		@Override
 		public E next() {
 			if(!hasNext()){
@@ -224,12 +236,23 @@ public class DoublyLinkedList<E>{
 				return lastItemReturned.data;
 			}
 		}
-
+		/**
+		 * Next index if index were to be incremented 
+		 * 
+		 * @return
+		 * 		Returns index value if it were to be incremented
+		 */
 		@Override
 		public int nextIndex() {
 			return index + 1;
 		}
 
+		/**
+		 * Retreats the iterator back a position 
+		 * 
+		 * @return
+		 * 		Returns the data of the node being traversed over.  Throws NoSuchElementException if previous is null
+		 */
 		@Override
 		public E previous() {
 			if(!hasPrevious()){
@@ -244,18 +267,27 @@ public class DoublyLinkedList<E>{
 			return lastItemReturned.data;
 		}
 
+		/**
+		 * previous index if index were to be decremented 
+		 * 
+		 * @return
+		 * 		Returns index value if it were to be decremented
+		 */
 		@Override
 		public int previousIndex() {
 			
 			return index - 1;
 		}
 
+		/**
+		 * Removes last node traversed over.  Throws IllegalStateException if no element has been traversed
+		 * 
+		 */
 		@Override
 		public void remove() {
 			if(lastItemReturned == null){
 				throw new IllegalStateException();
 			}
-			//removing final node
 			if(lastItemReturned == head && tail == head){
 				head = null;
 				tail = null;
@@ -281,6 +313,9 @@ public class DoublyLinkedList<E>{
 			lastItemReturned = null;
 		}
 
+		/**
+		 * Method not supported by this class.  Throws UnsupportedOperationException if called
+		 */
 		@Override
 		public void set(E arg0) {
 			throw new UnsupportedOperationException("set operation is not supported by list");

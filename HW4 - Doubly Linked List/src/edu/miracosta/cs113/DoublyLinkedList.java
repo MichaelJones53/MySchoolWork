@@ -111,11 +111,7 @@ public class DoublyLinkedList<E>{
 	
 	//public E getFirst() Gets the first element in the list.  Throws NoSuchElementException if the list is empty
 	public E getFirst(){
-		if(head != null){
-			return head.data;
-		}else{
-			throw new NoSuchElementException();
-		}
+		return head.data;
 	}
 	//public E getLast() Gets the last element in the list.  Throws NoSuchElementException if the list is empty
 	public E getLast(){
@@ -137,9 +133,6 @@ public class DoublyLinkedList<E>{
 		}
 		return found;
 	}
-	
-	
-	
 	/**
 	 * accessor method for list size
 	 * 
@@ -286,6 +279,11 @@ public class DoublyLinkedList<E>{
 			}
 			size--;
 			lastItemReturned = null;
+		}
+
+		@Override
+		public void set(E arg0) {
+			throw new UnsupportedOperationException("set operation is not supported by list");
 		}
 	}
 	private static class Node<E> {

@@ -1,5 +1,11 @@
 package edu.miracosta.cs113;
-
+/**
+ * DoublyLinkedList.java : Doubly linked list class
+ * 
+ * @author Michael Jones
+ * @version 1.0
+ *
+ */
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +16,6 @@ import java.util.NoSuchElementException;
 
 public class DoublyLinkedList<E>{
 	
-	// Data Fields
 	private Node<E> head = null;
 	private Node<E> tail = null;
 	int size = 0;
@@ -104,10 +109,13 @@ public class DoublyLinkedList<E>{
 	 */
 	public boolean remove(E obj){
 		DoubleListIterator itr = new DoubleListIterator();
+		
 		boolean isFound = false;
 		while(isFound == false && itr.hasNext()){
 			if(itr.next().equals(obj)){
+				
 				isFound = true;
+				
 				itr.remove();
 			}
 		}
@@ -134,6 +142,20 @@ public class DoublyLinkedList<E>{
 	
 		return null;
 	}
+	/**
+	 * String representation of list
+
+	 * @return 
+	 * 		returns string representation of list
+	 */
+	public String toString(){
+		DoubleListIterator itr = new DoubleListIterator();
+		String listAsString = "";
+		while(itr.hasNext()){
+			listAsString += itr.next()+"\n"; 
+		}
+		return listAsString;
+	}
 	private class DoubleListIterator implements ListIterator<E>{
 
 		private Node<E> nextNode = head;
@@ -154,18 +176,19 @@ public class DoublyLinkedList<E>{
 		public DoubleListIterator(int newIndex){
 			
 			if(newIndex < 0 || newIndex > size){
-				
 				throw new NoSuchElementException("Invalid index " + newIndex);
 			}else if(newIndex == size){
-				index = size;
+				index = newIndex;
 				nextNode = null;
-			}else{
 				
+			}else if(newIndex == 0){
+				nextNode = head;
+			}else{
+				nextNode = head;
 				for(index = 0; index < newIndex; index++){
 					nextNode = nextNode.next;
 				}
 			}
-			
 		}
 		/**
 		 * adds new element to list
@@ -179,8 +202,10 @@ public class DoublyLinkedList<E>{
 			
 			if(head == null){
 				head =  newNode;
-				tail = head;
+				tail = newNode;
+				nextNode = newNode;
 			}else if(nextNode == head){
+				
 				newNode.next = nextNode;
 				nextNode.prev = newNode;
 				head = newNode;
@@ -196,6 +221,7 @@ public class DoublyLinkedList<E>{
 			}
 			size++;
 			index++;
+			
 			lastItemReturned = null;
 		}
 		/**
@@ -230,8 +256,9 @@ public class DoublyLinkedList<E>{
 			if(!hasNext()){
 				throw new NoSuchElementException();
 			}else{
+				lastItemReturned = nextNode;
 				nextNode = nextNode.next;
-				lastItemReturned = nextNode.prev;
+				
 				index++;
 				return lastItemReturned.data;
 			}
@@ -309,6 +336,7 @@ public class DoublyLinkedList<E>{
 				lastItemReturned.prev.next = nextNode;
 				nextNode.prev = lastItemReturned.prev;
 			}
+			
 			size--;
 			lastItemReturned = null;
 		}

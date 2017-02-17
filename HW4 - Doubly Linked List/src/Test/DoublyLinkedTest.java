@@ -116,6 +116,7 @@ public class DoublyLinkedTest {
 		Assert.assertTrue(list.remove(7));
 		
 	}
+	
 	@Test
 	public void testRemoveFalse(){
 		DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
@@ -124,10 +125,30 @@ public class DoublyLinkedTest {
 		list.addLast(2);
 		list.addLast(9);
 		Assert.assertFalse(list.remove(30));
-		
+	}
+
+	@Test
+	public void testRemoveOnlyItem(){
+		DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+		list.addLast(4);
+		System.out.println(list.get(0));
+		Assert.assertTrue(list.remove(4));
+		Assert.assertTrue(list.size() == 0);
 	}
 	
-	
+	@Test
+	public void testRemoveLast(){
+		DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+		list.addFirst(4);
+		list.add(0, 7);
+		list.add(2, 2);
+		list.add(1,9);
+		list.addLast(10);
+		Assert.assertTrue(list.remove(10));
+		Assert.assertTrue(list.size() == 4);
+		Assert.assertTrue(list.get(list.size()-1) == 2);
+		
+	}
 	
 	
 }

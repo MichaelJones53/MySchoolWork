@@ -36,6 +36,21 @@ public class DoublyLinkedList<E>{
 		itr.add(obj);
 	}
 	
+	/**
+	 * adds new object to at index provided by iterator
+	 * 
+	 * @param iterator
+	 * 			iterator identifying index to to 
+	 * @param obj
+	 * 			object to be added to list 
+	 */
+	public void add(Iterator<E> iterator, E obj){
+		DoubleListIterator itr = (DoubleListIterator) iterator;
+		
+		itr.add(obj);
+		
+	
+	}
 	
 	/**
 	 * adds new object to beginning of list
@@ -61,7 +76,19 @@ public class DoublyLinkedList<E>{
 		DoubleListIterator itr = new DoubleListIterator(size);
 		itr.add(obj);
 	}
-	
+	/**
+	 * adds new object to at index-1 provided by iterator
+	 * 
+	 * @param iterator
+	 * 			iterator identifying index to add at 
+	 * @param obj
+	 * 			object to be added to list 
+	 */
+	public void addBefore(Iterator<E> iterator, E obj){
+		DoubleListIterator itr = (DoubleListIterator) iterator;
+		itr.previous();
+		itr.add(obj);
+	}
 	
 	/**
 	 * Gets  item at position Index
@@ -113,9 +140,7 @@ public class DoublyLinkedList<E>{
 		boolean isFound = false;
 		while(isFound == false && itr.hasNext()){
 			if(itr.next().equals(obj)){
-				
 				isFound = true;
-				
 				itr.remove();
 			}
 		}
@@ -132,15 +157,15 @@ public class DoublyLinkedList<E>{
 		return size;
 	}
 	/**
-	 * String representation of list
+	 * creates iterator for the list
 
 	 * @return 
-	 * 		returns string representation of list
+	 * 		returns iterator at beginning of list
 	 */
 	// create iterator
 	public Iterator<E> iterator(){
 	
-		return null;
+		return new DoubleListIterator();
 	}
 	/**
 	 * String representation of list
@@ -203,20 +228,20 @@ public class DoublyLinkedList<E>{
 			if(head == null){
 				head =  newNode;
 				tail = newNode;
-				nextNode = newNode;
+				nextNode = null;
 			}else if(nextNode == head){
-				
-				newNode.next = nextNode;
-				nextNode.prev = newNode;
+				newNode.next = head;
+				head.prev = newNode;
 				head = newNode;
 			}else if(nextNode == null){
 				tail.next = newNode;
 				newNode.prev = tail;
+				nextNode = newNode;
 				tail = newNode;
 			}else{
 				newNode.prev = nextNode.prev;
-				nextNode.prev.next = newNode;
 				newNode.next = nextNode;
+				nextNode.prev.next = newNode;
 				nextNode.prev = newNode;
 			}
 			size++;

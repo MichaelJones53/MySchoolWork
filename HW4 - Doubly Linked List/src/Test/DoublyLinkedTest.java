@@ -1,6 +1,9 @@
 package Test;
 
 import org.junit.Test;
+
+import java.util.Iterator;
+
 import org.junit.Assert;
 
 import edu.miracosta.cs113.DoublyLinkedList;
@@ -149,6 +152,19 @@ public class DoublyLinkedTest {
 		Assert.assertTrue(list.get(list.size()-1) == 2);
 		
 	}
-	
+	@Test
+	public void testAddBefore(){
+		DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+		list.addFirst(4);
+		list.add(0, 7);
+		list.add(2, 2);
+		list.add(1,9);
+		list.addLast(10);
+		Iterator<Integer> itr = list.iterator();
+		itr.next();
+		itr.next();
+		list.addBefore(itr, 7);
+		Assert.assertTrue(list.get(1) == 7);
+	}
 	
 }

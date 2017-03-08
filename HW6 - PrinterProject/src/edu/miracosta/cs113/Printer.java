@@ -25,18 +25,39 @@ public class Printer {
 	}
 	
 	
-	public boolean hasNextJob(){
-		return !jobQueue.isEmpty();
-	}
 	
 	public void printNextJob(){
 		isPrinting = true;
 		Job printingJob = jobQueue.peek();
 		printingJob.setStartTime(time);
-		printingJob.setCompletedTime(time+ (printingJob.pages/10)+1);
+		printingJob.setCompletedTime(time+ ((printingJob.pages-1)/10)+1);
 		
 	}
 
+	public void tick(){
+		//check if printing
+		if(isPrinting){
+			if(jobQueue.peek().completedTime == time){
+				jobQueue.poll();
+				if(!jobQueue.isEmpty()){
+					this.printNextJob();
+				}else{
+					isPrinting = false;
+				}
+			}
+		}else{
+			if(!jobQueue.isEmpty()){
+				this.printNextJob();
+			}
+		}
+		
+		
+			//if so, check if job done yet
+				//if not, continue printing
+				//if so, pop off job from queue and start next one
+			//if not printing, check if job in queue and start printing if so
+		
+	}
 
 
 
@@ -97,8 +118,8 @@ public class Printer {
 	}
 
 
-	public static void setTime(int time) {
-		Printer.time = time;
+	public static void incrimentTime() {
+		time++;
 	}
 
 

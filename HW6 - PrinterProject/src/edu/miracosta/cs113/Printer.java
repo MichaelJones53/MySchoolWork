@@ -5,13 +5,106 @@ import java.util.Queue;
 
 public class Printer {
 	private static int time = 0;
+	private String name;
 	private int mininumPages;
 	private int maxinumPages;
+	private boolean isPrinting = false;
 	private Queue<Job> jobQueue = new LinkedList<Job>();
 	
+	public  Printer(String name, int minPages, int maxPages){
+		this.name = name;
+		mininumPages = minPages;
+		maxinumPages = maxPages;
+	}
 	
 	
+	public void addJob(int pages){
+		jobQueue.add(new Job(pages));
+		System.out.println(name+": added job of "+pages+" at time "+time);
 	
+	}
+	
+	
+	public boolean hasNextJob(){
+		return !jobQueue.isEmpty();
+	}
+	
+	public void printNextJob(){
+		isPrinting = true;
+		Job printingJob = jobQueue.peek();
+		printingJob.setStartTime(time);
+		printingJob.setCompletedTime(time+ (printingJob.pages/10)+1);
+		
+	}
+
+
+
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+
+
+	public int getMininumPages() {
+		return mininumPages;
+	}
+
+
+
+
+
+
+	public void setMininumPages(int mininumPages) {
+		this.mininumPages = mininumPages;
+	}
+
+
+
+
+
+
+	public int getMaxinumPages() {
+		return maxinumPages;
+	}
+
+
+
+
+
+
+	public void setMaxinumPages(int maxinumPages) {
+		this.maxinumPages = maxinumPages;
+	}
+
+
+	public static int getTime() {
+		return time;
+	}
+
+
+	public static void setTime(int time) {
+		Printer.time = time;
+	}
+
+
+
+
+
 	private static class Job{
 		private int pages;
 		private int submitTime;

@@ -7,24 +7,26 @@ public class Printer {
 	private static int time = 0;
 	private String name;
 	private int mininumPages;
-	private int maxinumPages;
+	private int maximumPages;
 	private boolean isPrinting = false;
 	private Queue<Job> jobQueue = new LinkedList<Job>();
 	
 	public  Printer(String name, int minPages, int maxPages){
 		this.name = name;
 		mininumPages = minPages;
-		maxinumPages = maxPages;
+		maximumPages = maxPages;
 	}
 	
 	
 	public void addJob(int pages){
-		jobQueue.add(new Job(pages));
-		System.out.println(name+": added job of "+pages+" at time "+time);
-	
+		Job newJob = new Job(pages);
+		jobQueue.add(newJob);
+		System.out.println(name+":  added new Job of "+newJob.pages+" at time "+time);
 	}
 	
-	
+	public boolean hasNextJob(){
+		return !jobQueue.isEmpty();
+	}
 	
 	public void printNextJob(){
 		isPrinting = true;
@@ -38,7 +40,8 @@ public class Printer {
 		//check if printing
 		if(isPrinting){
 			if(jobQueue.peek().completedTime == time){
-				jobQueue.poll();
+				Job finishedJob = jobQueue.poll();
+				System.out.println(name+" completed "+finishedJob.toString());
 				if(!jobQueue.isEmpty()){
 					this.printNextJob();
 				}else{
@@ -99,8 +102,8 @@ public class Printer {
 
 
 
-	public int getMaxinumPages() {
-		return maxinumPages;
+	public int getMaximumPages() {
+		return maximumPages;
 	}
 
 
@@ -108,13 +111,17 @@ public class Printer {
 
 
 
-	public void setMaxinumPages(int maxinumPages) {
-		this.maxinumPages = maxinumPages;
+	public void setMaximumPages(int maximumPages) {
+		this.maximumPages = maximumPages;
 	}
 
 
 	public static int getTime() {
 		return time;
+	}
+	
+	public static void setTime(int newTime){
+		time = newTime;
 	}
 
 
@@ -172,7 +179,7 @@ public class Printer {
 		}
 		
 		public String toString(){
-			return "Number of Pages: "+pages+"\tSubmit time: " +submitTime+"\tCompleted Time: "+completedTime; 
+			return "Number of Pages: "+pages+"    Submit time: " +submitTime+"     Completed Time: "+completedTime; 
 		}
 		
 		

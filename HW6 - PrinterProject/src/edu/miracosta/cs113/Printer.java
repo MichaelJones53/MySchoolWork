@@ -21,7 +21,7 @@ public class Printer {
 	public void addJob(int pages){
 		Job newJob = new Job(pages);
 		jobQueue.add(newJob);
-		System.out.println(name+":  added new Job of "+newJob.pages+" at time "+time);
+		System.out.println(name+":  added JOB "+newJob.pages+" pages at TIME: "+time);
 	}
 	
 	public boolean hasNextJob(){
@@ -29,38 +29,29 @@ public class Printer {
 	}
 	
 	public void printNextJob(){
-		isPrinting = true;
-		Job printingJob = jobQueue.peek();
-		printingJob.setStartTime(time);
-		printingJob.setCompletedTime(time+ ((printingJob.pages-1)/10)+1);
-		
-	}
-
-	public void tick(){
-		//check if printing
+	
 		if(isPrinting){
 			if(jobQueue.peek().completedTime == time){
 				Job finishedJob = jobQueue.poll();
-				System.out.println(name+" completed "+finishedJob.toString());
-				if(!jobQueue.isEmpty()){
-					this.printNextJob();
-				}else{
-					isPrinting = false;
-				}
+				System.out.println(name+" \t\tcompleted "+finishedJob.toString());
+				isPrinting = false;
+				printNextJob();
 			}
+			
 		}else{
-			if(!jobQueue.isEmpty()){
-				this.printNextJob();
+			Job printingJob = jobQueue.peek();
+			if(printingJob != null){
+				printingJob.setStartTime(time);
+				printingJob.setCompletedTime(time+ ((printingJob.pages-1)/10)+1);
+				isPrinting = true;
 			}
 		}
-		
-		
-			//if so, check if job done yet
-				//if not, continue printing
-				//if so, pop off job from queue and start next one
-			//if not printing, check if job in queue and start printing if so
-		
 	}
+
+
+
+	
+	
 
 
 
@@ -179,7 +170,7 @@ public class Printer {
 		}
 		
 		public String toString(){
-			return "Number of Pages: "+pages+"    Submit time: " +submitTime+"     Completed Time: "+completedTime; 
+			return "Number of Pages: "+pages+"    Submit time: " +submitTime+"     Start Time: "+startTime+"     Completed Time: "+completedTime; 
 		}
 		
 		

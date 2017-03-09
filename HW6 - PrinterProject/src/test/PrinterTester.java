@@ -70,20 +70,16 @@ public class PrinterTester {
 		
 	}
 	
-	//printnextjob
+
 	@Test
 	public void testPrintNextJob(){
 		Printer printer = new Printer("testPrintNextJobPrinter", 6, Integer.MAX_VALUE);
 		printer.addJob(10);
 		printer.printNextJob();
 		Printer.incrimentTime();
-		printer.tick();
-		
-		
-		
+
 		
 	}
 	
-	//tick
-
+	
 }

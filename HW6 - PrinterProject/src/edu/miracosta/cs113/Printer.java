@@ -34,7 +34,7 @@ public class Printer {
 	 */
 	public void addJob(int pages){
 		Job newJob = new Job(pages);
-		jobQueue.add(newJob);
+		jobQueue.offer(newJob);
 		System.out.println(name+":  added JOB "+newJob.pages+" pages at TIME: "+time);
 	}
 	
@@ -169,7 +169,7 @@ public class Printer {
 		 * @param pages
 		 * 		number of pages of job
 		 */
-		public Job(int pages){
+		private Job(int pages){
 			this.pages = pages;
 			submitTime = time;
 			startTime = 0;

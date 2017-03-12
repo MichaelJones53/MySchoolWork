@@ -6,16 +6,20 @@ import java.util.ArrayList;
 public class Change {
 
     private static final int[] COIN_DENOMINATIONS = {25, 10, 5, 1};
-    ArrayList<Integer> combinationList = new ArrayList<>();
+    private static ArrayList<Integer> combinationList = new ArrayList<>();
 
+    /**
+	 * No argument constructor.  instantiates change object
+	 */
     public Change() {
     }
 
     /**
      * wrapper for countOptions method
      * @param amount
+     * 		amount to find the number of combinations for
      */
-    public void combinations(int amount) {
+    public static void combinations(int amount) {
             countOptions(amount, combinationList, 0);
     }
 
@@ -28,7 +32,7 @@ public class Change {
      * @param nextCoin
      * 			identifies highest denomination being used to calculate through recursion
      */
-    public void countOptions(int value, ArrayList<Integer> coins, int nextCoin) {
+    public static void countOptions(int value, ArrayList<Integer> coins, int nextCoin) {
         if (value == 0) {
         	int quarters = 0;
         	int dimes = 0;

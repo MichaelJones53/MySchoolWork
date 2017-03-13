@@ -99,5 +99,12 @@ public class Code {
 		return jumpCodes.get(mnemonic);
 	}
 	
+	//DESCRIPTION:		converts integer from decimal notation to binary notation
+	//PRECONDITION:		number is valid size for architecture, non-negative
+	//POSTCONDITION:	returns 15-bit string of binary digits (first char is MSB)
+	public String decimalToBinary(int decimal){
+		
+		return String.format("15%b", decimal);
+	}
 	
 }

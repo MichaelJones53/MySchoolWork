@@ -1,6 +1,5 @@
+package edu.miracosta.cs113;
 import java.util.HashMap;
-
-
 
 public class Code {
 

@@ -1,3 +1,4 @@
+package edu.miracosta.cs113;
 //Author info here
 //TODO: don't forget to document each method in all classes!
 import java.io.FileOutputStream;
@@ -59,6 +60,8 @@ public class Assembler {
 		// n = romAddress which you should keep track of as you go through each line
 	//HINT: when should rom address increase? What kind of commands?
 	private static void firstPass(String inputFileName, SymbolTable symbolTable) {
+		
+		
 
 	}
 	

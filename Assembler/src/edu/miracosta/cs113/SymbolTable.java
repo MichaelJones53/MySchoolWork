@@ -1,3 +1,4 @@
+package edu.miracosta.cs113;
 import java.util.HashMap;
 
 public class SymbolTable {
@@ -38,20 +39,21 @@ public class SymbolTable {
 	//PRECONDITION:		symbol/address pair not in hashmap (check contains() 1st)
 	//POSTCONDITION:	adds pair, returns true if added, false if illegal name
 	public boolean addEntry(String symbol, int address){
-		
-		if(INITIAL_VALID_CHARS.indexOf(symbol.charAt(0)) == -1){
+		if(isValidName(symbol)){
+			symbolTable.put(symbol, address);
+			return true;
+		}else{
 			return false;
 		}
-		//STUB  finish method
-		return false;
+		
 	}
 	
 	//DESCRIPTION:		returns boolean of whether hashmap has symbol or not	
-	//PRECONDITION:		table has been initalized
+	//PRECONDITION:		table has been initialized
 	//POSTCONDITION:	returns boolean if arg is in table or not
 	public boolean contains(String symbol){
 		//STUB
-		return false;
+		return symbolTable.containsKey(symbol);
 	}
 	
 	//DESCRIPTION:		returns address in hashmap of given symbol
@@ -59,13 +61,28 @@ public class SymbolTable {
 	//POSTCONDITION:	returns address associated with symbol in hashmap
 	public int getAddress(String symbol){
 		//stub
-		return -1;
+		return symbolTable.get(symbol);
 	}
 	
-	
-	public boolean isValidName(String symbol){
-		//stub
-		return false;
+	//DESCRIPTION:		checks validity of identifies for assembly code symbols
+	//PRECONDITION:		start with letters of "_.$:" only, numbers allowed after
+	//POSTCONDITION:	returns true if valid identifier, false otherwise
+	public static boolean isValidName(String symbol){
+		if(symbol != null && !symbol.isEmpty()){
+			if(INITIAL_VALID_CHARS.indexOf(symbol.charAt(0)) == -1){
+				return false;
+			}else{
+				for(int i=1; i< symbol.length(); i++){
+					if(ALL_VALID_CHARS.indexOf(symbol.charAt(i)) == -1){
+						return false;
+					}
+				}
+				return true;
+			}	
+			
+		}else{
+			return false;
+		}
 	}
 	
 	

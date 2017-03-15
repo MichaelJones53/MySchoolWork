@@ -22,7 +22,7 @@ public class Assembler {
 		
 		String inputFileName, outputFileName;
 		PrintWriter outputFile = null; //keep compiler happy
-		SymbolTable symbolTable;
+		SymbolTable symbolTable = new SymbolTable();
 		int romAddress, ramAddress;
 	
 		//get input file name from command line or console input
@@ -52,6 +52,10 @@ public class Assembler {
 		}
 		
 		// TODO: finish driver as algorithm describes
+		
+		firstPass(inputFileName, symbolTable);
+		
+		outputFile.close();
 	}
 	
 	// TODO: march through the source code without generating any code
@@ -60,8 +64,17 @@ public class Assembler {
 		// n = romAddress which you should keep track of as you go through each line
 	//HINT: when should rom address increase? What kind of commands?
 	private static void firstPass(String inputFileName, SymbolTable symbolTable) {
+		Code code = new Code();
+		Parser parser = new Parser(inputFileName);
 		
-		
+		while(parser.hasMoreCommands()){
+			parser.advance();
+			if(parser.getCommandType() == 'L'){
+				symbolTable.addEntry(parser.getSymbol(), parser.getLineNumber()+1);
+				System.out.println(symbolTable.getAddress(parser.getSymbol()));
+			}
+			
+		}
 
 	}
 	

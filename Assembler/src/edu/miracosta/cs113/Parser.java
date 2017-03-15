@@ -11,7 +11,7 @@ public class Parser {
 	private static final char L_COMMAND = 'L';
 	
 	private Scanner inputFile;
-	private int lineNumber;
+	private int lineNumber = 0;
 	private String cleanLine;
 	private String rawLine;
 	private char commandType;
@@ -54,9 +54,11 @@ public class Parser {
 			if(cleanLine != null && !cleanLine.isEmpty()){
 				if(cleanLine.charAt(0) == '@'){
 					commandType = A_COMMAND;
+					lineNumber++;
 				}
 				else if(cleanLine.charAt(0) == 'M' || cleanLine.charAt(0) == 'A' || cleanLine.charAt(0) == 'D' || cleanLine.charAt(0) == '0' ){
 					commandType = C_COMMAND;
+					lineNumber++;
 				}else if(cleanLine.charAt(0) == '('){
 					commandType = L_COMMAND;
 				}else{
@@ -84,11 +86,17 @@ public class Parser {
 	//POSTCONDITION:	current instruction parts put into instance vars
 	public void advance(){
 		//not finished
+		cleanLine = null;
+		rawLine = null;
+		commandType = 'N';
+		symbol = null;
+		destMnemonic = null;
+		compMnemonic = null;
+		jumpMnemonic = null;
 		if(hasMoreCommands()){
 			rawLine = inputFile.nextLine();
 			cleanLine();
 			parse();
-			
 		}
 	}
 	

@@ -23,7 +23,8 @@ public class Assembler {
 		String inputFileName, outputFileName;
 		PrintWriter outputFile = null; //keep compiler happy
 		SymbolTable symbolTable = new SymbolTable();
-		int romAddress, ramAddress;
+		int romAddress;
+		int ramAddress;
 	
 		//get input file name from command line or console input
 		if(args.length == 1) {
@@ -54,6 +55,7 @@ public class Assembler {
 		// TODO: finish driver as algorithm describes
 		
 		firstPass(inputFileName, symbolTable);
+		secondPass(inputFileName, symbolTable, outputFile);
 		
 		outputFile.close();
 	}
@@ -64,14 +66,11 @@ public class Assembler {
 		// n = romAddress which you should keep track of as you go through each line
 	//HINT: when should rom address increase? What kind of commands?
 	private static void firstPass(String inputFileName, SymbolTable symbolTable) {
-		Code code = new Code();
 		Parser parser = new Parser(inputFileName);
-		
 		while(parser.hasMoreCommands()){
 			parser.advance();
 			if(parser.getCommandType() == 'L'){
-				symbolTable.addEntry(parser.getSymbol(), parser.getLineNumber()+1);
-				System.out.println(symbolTable.getAddress(parser.getSymbol()));
+				symbolTable.addEntry(parser.getSymbol(), parser.getLineNumber());
 			}
 			
 		}
@@ -91,6 +90,30 @@ public class Assembler {
 	// HINT: when should rom address increase?  What should ram address start
 	// at? When should it increase?  What do you do with L commands and No commands?
 	private static void secondPass(String inputFileName, SymbolTable symbolTable, PrintWriter outputFile) {
+		Code code = new Code();
+		Parser parser = new Parser(inputFileName);
+		int ramAddress = 16;
+		
+		while(parser.hasMoreCommands()){
+			parser.advance();
+			if(parser.getCommandType() == 'A'){
+				String currentSymbol = parser.getSymbol();
+				try{
+					outputFile.println("0"+code.decimalToBinary(Integer.parseInt(currentSymbol)));
+				}catch(NumberFormatException e){
+					if(!symbolTable.contains(currentSymbol)){
+						if(ramAddress >= symbolTable.getAddress("SCREEN")){
+							throw new StackOverflowError();
+						}
+						symbolTable.addEntry(currentSymbol, ramAddress);
+						ramAddress++;
+					}
+					outputFile.println("0"+code.decimalToBinary(symbolTable.getAddress(currentSymbol)));
+				}
+			}else if(parser.getCommandType() == 'C'){
+				outputFile.println("111"+code.getComp(parser.getComp())+code.getDest(parser.getDest())+code.getJump(parser.getJump()));
+			}
+		}
 
 	}
 	

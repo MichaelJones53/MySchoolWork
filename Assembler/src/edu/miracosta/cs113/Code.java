@@ -45,6 +45,7 @@ public class Code {
 		compCodes.put("1+M", "1110111");
 		compCodes.put("M-1", "1110010");
 		compCodes.put("M+D", "1000010");
+		compCodes.put("D+M", "1000010");
 		compCodes.put("D-M", "1010011");
 		compCodes.put("M-D", "1000111");
 		compCodes.put("D&M", "1000000");
@@ -102,8 +103,7 @@ public class Code {
 	//PRECONDITION:		number is valid size for architecture, non-negative
 	//POSTCONDITION:	returns 15-bit string of binary digits (first char is MSB)
 	public String decimalToBinary(int decimal){
-		
-		return String.format("15%b", decimal);
+		return String.format(String.format("%15s", Integer.toBinaryString(decimal)).replace(" ", "0"));
 	}
 	
 }

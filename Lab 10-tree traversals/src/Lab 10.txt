@@ -1,0 +1,4 @@
+
+preorder	lay, house, cow, jack, rat, milked, that
+inorder		cow, house, jack, lay, milked, rat, that
+postorder	cow, jack, house, milked, that, rat, lay

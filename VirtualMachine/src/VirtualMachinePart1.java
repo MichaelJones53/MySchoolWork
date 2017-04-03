@@ -42,17 +42,20 @@ public class VirtualMachinePart1 {
 			System.exit(0);
 		}
 		
-		compilerToVM(inputFileName);
+		compilerToVM(inputFileName, outputFile);
 	}
 	
-	private static void compilerToVM(String inputFile){
-		Parser parser = new Parser(inputFile);
+	private static void compilerToVM(String inFile, String outFile){
+		Parser parser = new Parser(inFile);
+		CodeWriter codeWriter = new CodeWriter(outFile);
 		while(parser.hasMoreCommands()){
 			parser.advance();
 			if(parser.getCommandType() == 'Z'){
 				//skips commented/empty lines
-			}else{
+			}else if(parser.getCommandType() == Parser.C_PUSH || parser.getCommandType() == Parser.C_POP){
+				codeWriter.WritePushPop(parser.getCommandType(), segment , index);
 				System.out.println(parser.getCommandType());
+				
 			}
 			
 		}

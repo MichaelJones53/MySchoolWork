@@ -8,15 +8,15 @@ import java.util.Scanner;
  */
 public class Parser {
 
-	private static final char C_ARITHMETIC = 'A';
-	private static final char C_PUSH = 'P';
-	private static final char C_POP = 'O';
-	private static final char C_LABEL = 'L';
-	private static final char C_GOTO = 'G';
-	private static final char C_IF = 'I';
-	private static final char C_FUNCTION = 'X';
-	private static final char C_RETURN = 'R';
-	private static final char C_CALL = 'C';
+	public static final char C_ARITHMETIC = 'A';
+	public static final char C_PUSH = 'P';
+	public static final char C_POP = 'O';
+	public static final char C_LABEL = 'L';
+	public static final char C_GOTO = 'G';
+	public static final char C_IF = 'I';
+	public static final char C_FUNCTION = 'X';
+	public static final char C_RETURN = 'R';
+	public static final char C_CALL = 'C';
 	
 	private Scanner inputFile;
 	private char commandType;
@@ -120,8 +120,8 @@ public class Parser {
 	 * command is C_PUSH, C_POP, C_FUNCTION, or
 	 * C_CALL. 
 	 */
-	public String arg2(){
-		return null;
+	public int arg2(){
+		return -1;
 	}
 	
 	//DESCRIPTION:		getter for command type

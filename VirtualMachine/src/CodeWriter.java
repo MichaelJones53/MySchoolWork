@@ -26,8 +26,12 @@ public class CodeWriter {
 		
 	}
 	
-	public void WritePushPop(char commmand, String segment, int index){
-		
+	public void WritePushPop(char command, String segment, int index){
+		if(command == Parser.C_PUSH){
+			
+		}else{
+			outputFile.println();
+		}
 	}
 	
 	public void close(){

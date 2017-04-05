@@ -6,17 +6,16 @@ import java.util.Scanner;
  * Handles the parsing of a single .vm file, and encapsulates access to the input code. It reads VM commands,
  * parses them, and provides convenient access to their components. In addition, it removes all white space and comments.
  */
+
+
+//  C:\Users\W7201584\Desktop\test.vm
+
 public class Parser {
 
 	public static final char C_ARITHMETIC = 'A';
 	public static final char C_PUSH = 'P';
 	public static final char C_POP = 'O';
-	public static final char C_LABEL = 'L';
-	public static final char C_GOTO = 'G';
-	public static final char C_IF = 'I';
-	public static final char C_FUNCTION = 'X';
-	public static final char C_RETURN = 'R';
-	public static final char C_CALL = 'C';
+	
 	
 	private Scanner inputFile;
 	private char commandType;
@@ -41,13 +40,11 @@ public class Parser {
 	//PRECONDITION:		String parameter given (not null)
 	//POSTCONDITION:	returned without comments and whitespace
 	private void cleanLine(){
-		cleanLine = rawLine;
+		cleanLine = rawLine.trim();
 		int commentLocation = cleanLine.indexOf("/");
 		if(commentLocation != -1){
-			cleanLine = cleanLine.substring(0,commentLocation);
+			cleanLine = cleanLine.substring(0,commentLocation).trim();
 		}
-		cleanLine = cleanLine.replaceAll("\t", "");
-		cleanLine = cleanLine.replaceAll(" ", "");
 	}
 
 	
@@ -72,11 +69,11 @@ public class Parser {
 				cleanLine = null;
 				rawLine = null;
 				commandType = 'Z';
-				
 				if(hasMoreCommands()){
 					rawLine = inputFile.nextLine();
 					cleanLine();
 					parseCommandType();
+					
 				}
 	}
 	
@@ -84,26 +81,18 @@ public class Parser {
 	//PRECONDITION:		String parameter is clean instruction
 	//POSTCONDITION:	sets commandType to appropriate command type
 	private void parseCommandType(){
-		if(cleanLine.startsWith("*****************************")){
-			commandType = C_ARITHMETIC;
-		}else if(cleanLine.startsWith("push")){
+		if(cleanLine.startsWith("push")){
 			commandType = C_PUSH;
+		
 		}else if(cleanLine.startsWith("pop")){
 			commandType = C_POP;
-		}else if(cleanLine.startsWith("label")){
-			commandType = C_LABEL;
-		}else if(cleanLine.startsWith("goto")){
-			commandType = C_GOTO;
-		}else if(cleanLine.startsWith("if")){
-			commandType = C_IF;
-		}else if(cleanLine.startsWith("function")){
-			commandType = C_FUNCTION;
-		}else if(cleanLine.startsWith("return")){
-			commandType = C_RETURN;
-		}else if(cleanLine.startsWith("*****************************")){
-			commandType = C_CALL;
-		}	
+			
+		}else{
+			commandType = C_ARITHMETIC;
+		}
 	}
+	
+	
 	/*
 	 * Returns the first arg. of the current command.
 	 * In the case of C_ARITHMETIC, the command itself
@@ -111,7 +100,13 @@ public class Parser {
 	 * if the current command is C_RETURN.
 	 */
 	public String arg1(){
-		return null;
+		if(commandType == C_ARITHMETIC){
+			return cleanLine;
+		}else{
+			int firstSpace = cleanLine.indexOf(" ");
+			String argumentsString = cleanLine.substring(firstSpace+1);
+			return argumentsString.substring(0, argumentsString.indexOf(" "));
+		}
 	}
 	
 	/*
@@ -121,7 +116,8 @@ public class Parser {
 	 * C_CALL. 
 	 */
 	public int arg2(){
-		return -1;
+		String argumentsString = cleanLine.substring(cleanLine.lastIndexOf(" "));
+		return Integer.parseInt(argumentsString.substring(argumentsString.indexOf(" ")+1));
 	}
 	
 	//DESCRIPTION:		getter for command type

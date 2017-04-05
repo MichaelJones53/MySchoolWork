@@ -1,7 +1,7 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
+
 import java.util.Scanner;
+
+//C:\Users\W7201584\Desktop\test.vm
 
 
 public class VirtualMachinePart1 {
@@ -14,7 +14,6 @@ public class VirtualMachinePart1 {
 	public static void main(String[] args) {
 		
 		String inputFileName, outputFileName;
-		PrintWriter outputFile = null; //keep compiler happy
 	
 		//get input file name from command line or console input
 		if(args.length == 1) {
@@ -32,17 +31,9 @@ public class VirtualMachinePart1 {
 			keyboard.close();
 		}
 		
-		outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".hack";
+		outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".txt";
 							
-		try {
-			outputFile = new PrintWriter(new FileOutputStream(outputFileName));
-		} catch (FileNotFoundException ex) {
-			System.err.println("Could not open output file " + outputFileName);
-			System.err.println("Run program again, make sure you have write permissions, etc.");
-			System.exit(0);
-		}
-		
-		compilerToVM(inputFileName, outputFile);
+		compilerToVM(inputFileName, inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".txt");
 	}
 	
 	private static void compilerToVM(String inFile, String outFile){
@@ -53,12 +44,13 @@ public class VirtualMachinePart1 {
 			if(parser.getCommandType() == 'Z'){
 				//skips commented/empty lines
 			}else if(parser.getCommandType() == Parser.C_PUSH || parser.getCommandType() == Parser.C_POP){
-				codeWriter.WritePushPop(parser.getCommandType(), segment , index);
-				System.out.println(parser.getCommandType());
+				codeWriter.WritePushPop(parser.getCommandType(), parser.arg1() , parser.arg2());
 				
 			}
 			
 		}
+		System.out.println("Done");
+		codeWriter.close();
 		
 	}
 

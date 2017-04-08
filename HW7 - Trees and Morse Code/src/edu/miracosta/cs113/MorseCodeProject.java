@@ -12,27 +12,32 @@ public class MorseCodeProject {
 	private static BinaryTree<String> morseTree = new BinaryTree<String>();
 
 	public static void main(String[] args) {
-		String filename = "C:\\Users\\W7201584\\Desktop\\morse.txt";
+		String fileName = "morse.txt";
 
 		boolean isRunning = true;
 		Scanner keyboard = new Scanner(System.in);
 		Scanner scanner;
 		FileInputStream instream;
 		int selection = 0;
+		boolean enteringFileName = true;
 
-		try {
-			instream = new FileInputStream(filename);
-			scanner = new Scanner(instream);
-			while (scanner.hasNext()) {
-				morseTree = BinaryTree.readBinaryTree(scanner);
+		while (enteringFileName) {
 
+			try {
+				instream = new FileInputStream(fileName);
+				scanner = new Scanner(instream);
+				while (scanner.hasNext()) {
+					morseTree = BinaryTree.readBinaryTree(scanner);
+
+				}
+				scanner.close();
+				enteringFileName = false;
+			} catch (FileNotFoundException e) {
+				System.out.println("could not find file. Enter the file path");
+				fileName = keyboard.nextLine();
 			}
-			scanner.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
 
+		}
 		while (isRunning) {
 			boolean isSelecting = true;
 			System.out.println("");
@@ -64,14 +69,14 @@ public class MorseCodeProject {
 			} else if (selection == 2) {
 				System.out.println("enter the full file path to be translated");
 				String userFileName = keyboard.nextLine();
-				try{
+				try {
 					instream = new FileInputStream(userFileName);
 					scanner = new Scanner(instream);
-					while(scanner.hasNext()){
+					while (scanner.hasNext()) {
 						System.out.print(translateFromMorseToText(scanner.next().toLowerCase(), morseTree));
 					}
 					scanner.close();
-				}catch(FileNotFoundException e){
+				} catch (FileNotFoundException e) {
 					System.out.println("file not found.  Returnning to main menu");
 				}
 
@@ -86,7 +91,7 @@ public class MorseCodeProject {
 				isRunning = false;
 			}
 		}
-
+		keyboard.close();
 		System.out.println("Toodles!");
 	}
 
@@ -94,9 +99,8 @@ public class MorseCodeProject {
 	 * generates table to view binary tree data
 	 * 
 	 * @param tree
-	 * 			Binary tree to generate table from
-	 * @return
-	 * 		String representation as data table of Binary Tree
+	 *            Binary tree to generate table from
+	 * @return String representation as data table of Binary Tree
 	 */
 	private static String treeAsTable(BinaryTree tree) {
 		if (tree.isLeaf()) {
@@ -115,10 +119,11 @@ public class MorseCodeProject {
 	}
 
 	/**
-	 * sorts and displays passed string as alphabetical table 5 columns in breadth
+	 * sorts and displays passed string as alphabetical table 5 columns in
+	 * breadth
 	 * 
 	 * @param data
-	 * 		String to be dislayed as a table
+	 *            String to be dislayed as a table
 	 */
 	private static void displayAsTable(String data) {
 		ArrayList<String> dataAsList = new ArrayList<String>();
@@ -144,9 +149,8 @@ public class MorseCodeProject {
 	 * converts alphabetical text to morse code
 	 * 
 	 * @param data
-	 * 			string to be coverted	
-	 * @return
-	 * 		morse code representation of provided data
+	 *            string to be coverted
+	 * @return morse code representation of provided data
 	 */
 	private static String translateText(String data) {
 
@@ -169,14 +173,15 @@ public class MorseCodeProject {
 	}
 
 	/**
-	 * Searches binary tree for provided character and provides morse representation
+	 * Searches binary tree for provided character and provides morse
+	 * representation
 	 * 
 	 * @param item
-	 * 			character being converted to morse
+	 *            character being converted to morse
 	 * @param tree
-	 * 			tree being searched for character
-	 * @return
-	 * 			returns the character in morse representation.  returns empty string if not found
+	 *            tree being searched for character
+	 * @return returns the character in morse representation. returns empty
+	 *         string if not found
 	 */
 	private static String searchBinaryTree(char item, BinaryTree<String> tree) {
 		if (tree == null) {
@@ -188,28 +193,28 @@ public class MorseCodeProject {
 			return searchBinaryTree(item, tree.getLeftSubtree()) + searchBinaryTree(item, tree.getRightSubtree());
 
 		}
-		
+
 	}
-	
+
 	/**
 	 * translates morse code to alphabetical text
+	 * 
 	 * @param data
-	 * 			data to be translated
+	 *            data to be translated
 	 * @param tree
-	 * 			tree to be searched
-	 * @return
-	 * 			returns alphabetical representation of provided morse string
+	 *            tree to be searched
+	 * @return returns alphabetical representation of provided morse string
 	 */
-	private static char translateFromMorseToText(String data, BinaryTree<String> tree){
-		if(data.length() == 0){
+	private static char translateFromMorseToText(String data, BinaryTree<String> tree) {
+		if (data.length() == 0) {
 			return tree.getData().charAt(0);
-		}else{
-			if(data.charAt(0) == '*'){
+		} else {
+			if (data.charAt(0) == '*') {
 				return translateFromMorseToText(data.substring(1), tree.getLeftSubtree());
-			}else{
+			} else {
 				return translateFromMorseToText(data.substring(1), tree.getRightSubtree());
 			}
 		}
-		
+
 	}
 }

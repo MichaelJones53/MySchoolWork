@@ -1,7 +1,7 @@
 
 import java.util.Scanner;
 
-//C:\Users\W7201584\Desktop\test.vm
+//C:\Users\W7201584\Desktop\testing\StackTest.vm
 
 
 public class VirtualMachinePart1 {
@@ -31,9 +31,9 @@ public class VirtualMachinePart1 {
 			keyboard.close();
 		}
 		
-		outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".txt";
+		outputFileName = inputFileName.substring(0,inputFileName.lastIndexOf('.'));
 							
-		compilerToVM(inputFileName, inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".txt");
+		compilerToVM(inputFileName, inputFileName.substring(0,inputFileName.lastIndexOf('.')) + ".asm");
 	}
 	
 	private static void compilerToVM(String inFile, String outFile){
@@ -44,8 +44,11 @@ public class VirtualMachinePart1 {
 			if(parser.getCommandType() == 'Z'){
 				//skips commented/empty lines
 			}else if(parser.getCommandType() == Parser.C_PUSH || parser.getCommandType() == Parser.C_POP){
+
 				codeWriter.WritePushPop(parser.getCommandType(), parser.arg1() , parser.arg2());
 				
+			}else if(parser.getCommandType() == parser.C_ARITHMETIC){
+				codeWriter.writeArithmetic(parser.arg1());
 			}
 			
 		}

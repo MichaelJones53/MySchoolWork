@@ -105,7 +105,8 @@ public class Parser {
 		}else{
 			int firstSpace = cleanLine.indexOf(" ");
 			String argumentsString = cleanLine.substring(firstSpace+1);
-			return argumentsString.substring(0, argumentsString.indexOf(" "));
+			
+			return argumentsString.substring(0, argumentsString.indexOf(' '));
 		}
 	}
 	

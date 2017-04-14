@@ -1,0 +1,38 @@
+
+Lab 12 
+programming assignment 1
+
+a) C=(A u B)
+	C.addAll(A);
+	C.addAll(B);
+
+b) C=(A n B)
+	C.addAll(A);
+	C.retainAll(B);
+
+c)C=(A - B)
+	C.addAll(A);
+	C.removeAll(B);
+d) if (A c B)
+		C=A
+	else
+		C=B
+		
+		if(B.containsAll((A)){
+			C.addAll(A);
+		}else{
+			C.addAll(B);
+		}
+		
+		
+Programming assignment 2
+
+public String toString(){
+	String returnString = "[";
+	
+	for(String element: set){
+		returnString += element+", ";
+	}
+	
+	return returnString.substring(0, returnString.length-2)+"]";
+}

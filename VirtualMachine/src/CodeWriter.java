@@ -1,8 +1,11 @@
+/**
+*generates .asm code from parsed vm sting commands. @author Michael Jones
+*/
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 
-//C:\Users\W7201584\Desktop\test.vm
 
 /*
  * CodeWriter: Translates VM commands into Hack assembly code.
@@ -12,21 +15,31 @@ public class CodeWriter {
 	private PrintWriter outputFile = null;
 	private String fileName = null;
 
+	//DESCRIPTION:		Opens the output file/stream and gets ready to write into it
+	//PRECONDITION:		output file name provided
+	//POSTCONDITION:	if file can't be opened, ends program w/error message
 	public CodeWriter(String outputFileName) {
 		try {
 			outputFile = new PrintWriter(new FileOutputStream(outputFileName));
 			
-		} catch (FileNotFoundException ex) {
+		} catch (FileNotFoundException e) {
 			System.err.println("Could not open output file " + outputFileName);
 			System.exit(0);
 		}
 		setFileName(outputFileName.toUpperCase());
 	}
 
+	//DESCRIPTION:		Informs the code writer that the translation of a new VM file is started.
+	//PRECONDITION:		file name porvided
+	//POSTCONDITION:	filename variable set to provided file name
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
+	
+	//DESCRIPTION:		Writes the assembly code that is the translation of the given arithmetic command.
+	//PRECONDITION:		command has been parsed from VM line
+	//POSTCONDITION:	writes .asm code for provided arthimetic command
 	public void writeArithmetic(String command) {
 		if (command.equals("add")) {
 			outputFile.println("//add called");
@@ -126,31 +139,21 @@ public class CodeWriter {
 		}
 	}
 
+	//DESCRIPTION:		Writes the assembly code that is the translation of the given command, where command is either C_PUSH or C_POP.
+	//PRECONDITION:		command has been parsed from VM line
+	//POSTCONDITION:	writes .asm code for provided push/pop command
 	public void WritePushPop(char command, String segment, int index) {
 
 		if (command == Parser.C_PUSH) {
 
-			if (segment == "local") {
-
-			} else if (segment.equals("static")) {
-				
-				
-			} else if (segment.equals("this")) {
-
-			} else if (segment.equals("that")) {
-
-			}else if (segment.equals("constant")) {
-				outputFile.println("//push constant entered");
-
+			if (segment.equals("constant")) {
 				outputFile.println("@" + index);
 				outputFile.println("D=A");
 				outputFile.println("@SP");
 				outputFile.println("A=M");
 				outputFile.println("M=D");
 				outputFile.println("@SP");
-
 				outputFile.println("M=M+1");
-				outputFile.println("//push constant ended");
 
 			}
 
@@ -181,16 +184,13 @@ public class CodeWriter {
 				outputFile.println(fileName+"."+index);
 				outputFile.println("M=D");
 				
-			} else if (segment.equals("this")) {
-
-			} else if (segment.equals("that")) {
-
-			} else if (segment.equals("constant")) {
-
 			}
 		}
 	}
 
+	//DESCRIPTION:		Closes the output file.
+	//PRECONDITION:		file is open
+	//POSTCONDITION:	file is closed
 	public void close() {
 		outputFile.close();
 	}

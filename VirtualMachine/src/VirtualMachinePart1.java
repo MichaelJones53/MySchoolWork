@@ -1,9 +1,9 @@
 
 import java.util.Scanner;
 
-//C:\Users\W7201584\Desktop\testing\StackTest.vm
-
-
+/**
+*translates .vm file to .asm file. @author Michael Jones
+*/
 public class VirtualMachinePart1 {
 	// ALGORITHM:
 	// get input file name

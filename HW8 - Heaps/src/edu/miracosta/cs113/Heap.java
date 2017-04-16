@@ -8,7 +8,29 @@ import java.util.PriorityQueue;
 @SuppressWarnings("serial")
 public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> {
 
-	private ArrayList<E> theData;
+	protected ArrayList<E> theData;
+	protected Comparator<E> comparator = null;
+
+	/**
+	 * No argument constructor. sets data to empty list.
+	 */
+	public Heap() {
+		theData = new ArrayList<E>();
+	}
+
+	/**
+	 * Constructor that sets data to empty list and instantiates Comparator
+	 * object
+	 * 
+	 * @param comp
+	 *            Comparator to be used in comparing key values
+	 */
+
+	public Heap(Comparator<E> comp) {
+		theData = new ArrayList<E>();
+		comparator = comp;
+
+	}
 
 	/**
 	 * pre: The ArrayList theData is in heap order. post: The item is in the
@@ -19,6 +41,7 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 	 * @throws NullPointerException
 	 *             if the item to be inserted is null.
 	 **/
+
 	@Override
 	public boolean offer(E item) {
 		// Add the item to the heap.
@@ -43,7 +66,7 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 	 */
 	@Override
 	public E poll() {
-		if (isEmpty()) {
+		if (theData.isEmpty()) {
 			return null;
 		}
 		// Save the top of the heap.
@@ -51,6 +74,7 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 		// If only one item then remove it.
 		if (theData.size() == 1) {
 			theData.remove(0);
+			
 			return result;
 		}
 		/*
@@ -84,43 +108,46 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 		return result;
 
 	}
+
 	/**
-	 * Returns the smallest entry without removing it.  if empty, returns null
-	 * @return
-	 * 		returns smallest entry. if empty, returns null
+	 * Returns the smallest entry without removing it. if empty, returns null
+	 * 
+	 * @return returns smallest entry. if empty, returns null
 	 */
 	@Override
-	public E peek(){
-		if(theData.isEmpty()){
+	public E peek() {
+		if (theData.isEmpty()) {
 			return null;
-		}else{
+		} else {
 			return theData.get(0);
 		}
-		
-	}
-	
-	
-	
-	
-	/**
-	 * Removes the smallest entry and returns it if list is not empty.  if empty, throws NoSuchElementException
-	 * @return
-	 * 		returns smallest entry in list.  if empty, throws NoSuchElementException
-	 */
-	@Override
-	public E remove(){
-		if (isEmpty()) {
-			throw new NoSuchElementException();
-		}else{
-			return poll();
-		}
-		
+
 	}
 
 	/**
+	 * Removes the smallest entry and returns it if list is not empty. if empty,
+	 * throws NoSuchElementException
+	 * 
+	 * @return returns smallest entry in list. if empty, throws
+	 *         NoSuchElementException
+	 */
+	@Override
+	public E remove() {
+		if (theData.isEmpty()) {
+			throw new NoSuchElementException();
+		} else {
+			return poll();
+		}
+
+	}
+
+	/**
+	 * switches the position in the dataset of the items passed
 	 * 
 	 * @param parent
+	 *            the item to become the child
 	 * @param child
+	 *            the item to become the parent
 	 */
 	private void swap(int parent, int child) {
 		E temp = (E) theData.get(parent);

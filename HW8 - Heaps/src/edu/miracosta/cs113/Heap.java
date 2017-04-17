@@ -140,7 +140,16 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 		}
 
 	}
+	
+	public String toString(){
+		return theData.toString();
+	}
 
+	@Override 
+	public boolean isEmpty(){
+		return theData.isEmpty();
+	}
+	
 	/**
 	 * switches the position in the dataset of the items passed
 	 * 

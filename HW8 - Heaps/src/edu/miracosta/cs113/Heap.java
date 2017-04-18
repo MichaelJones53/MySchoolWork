@@ -66,7 +66,7 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 	 */
 	@Override
 	public E poll() {
-		if (theData.isEmpty()) {
+		if (isEmpty()) {
 			return null;
 		}
 		// Save the top of the heap.
@@ -84,11 +84,9 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 		theData.set(0, theData.remove(theData.size() - 1));
 		// The parent starts at the top.
 		int parent = 0;
-		while (true) {
-			int leftChild = 2 * parent + 1;
-			if (leftChild >= theData.size()) {
-				break; // Out of heap.
-			}
+		int leftChild =  2 * parent + 1;
+		while (leftChild < theData.size()) {
+			
 			int rightChild = leftChild + 1;
 			int minChild = leftChild; // Assume leftChild is smaller.
 			// See whether rightChild is smaller.
@@ -100,9 +98,10 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 			if (compare(theData.get(parent), theData.get(minChild)) > 0) {
 				swap(parent, minChild);
 				parent = minChild;
-			} else { // Heap property is restored.
-				break;
 			}
+			
+			leftChild =  2 * parent + 1;
+			
 		}
 
 		return result;
@@ -116,7 +115,7 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 	 */
 	@Override
 	public E peek() {
-		if (theData.isEmpty()) {
+		if (isEmpty()) {
 			return null;
 		} else {
 			return theData.get(0);
@@ -140,11 +139,23 @@ public abstract class Heap<E> extends PriorityQueue<E> implements Comparator<E> 
 		}
 
 	}
+	/**
+	 * Returns String representation of Heap
+	 * @return
+	 * 		returns String representation of heap
+	 * 
+	 */
 	
 	public String toString(){
 		return theData.toString();
 	}
 
+	/**
+	 * Returns where or not the datastructure is empty
+	 * 
+	 * @return
+	 * 		Returns true if the datastructure is empty.  otherwise returns false;
+	 */
 	@Override 
 	public boolean isEmpty(){
 		return theData.isEmpty();

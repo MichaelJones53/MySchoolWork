@@ -141,21 +141,23 @@ public class BinaryTree<E> implements Serializable {
 
 	/**
 	 * Constructs binary tree by reading data from scanner
+	 * @param <T>
 	 * 
 	 * @param scan
 	 *            scanner being read from
 	 * @return Binary tree created from scanner
 	 */
-	public static BinaryTree<String> readBinaryTree(Scanner scan) {
+	public static <E> BinaryTree<E> readBinaryTree(Scanner scan) {
 		String data = scan.next();
 		if (data.equals("null")) {
 			
 			return null;
 		} else {
-			BinaryTree<String> leftTree = readBinaryTree(scan);
-			BinaryTree<String> rightTree = readBinaryTree(scan);
-
-			return new BinaryTree<String>(data, leftTree, rightTree);
+			
+			BinaryTree<E> leftTree = readBinaryTree(scan);
+			BinaryTree<E> rightTree = readBinaryTree(scan);
+			
+			return new BinaryTree<E>((E) data, leftTree, rightTree);
 		}
 	}
 

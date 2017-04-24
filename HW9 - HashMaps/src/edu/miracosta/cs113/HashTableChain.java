@@ -54,7 +54,11 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 	 *         otherwide, returns null;
 	 */
 	public V put(K key, V value) {
-		int index = getIndex(key);
+		int index = key.hashCode() % table.length;
+		
+		if (index < 0) {
+			index += table.length;
+		}
 		if (table[index] == null) {
 			table[index] = new LinkedList<Entry<K, V>>();
 		}
@@ -95,7 +99,8 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 		}
 		int loc = 0;
 		for (Entry<K, V> item : table[index]) {
-			if (item.equals(key)) {
+			
+			if (item.getKey().equals(key)) {
 				numKeys--;
 				value = table[index].remove(loc).getValue();
 				if (table[index].size() == 0) {
@@ -115,9 +120,9 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 	 *       the original table is reinserted into the expanded table.
 	 */
 	// If you use the rehash of the HashtableOpen the difference is
-	// in the reinsertion logic
+	// in the re-insertion logic
 
-	public void rehash() {
+	private void rehash() {
 		LinkedList<Entry<K, V>>[] newTable = new LinkedList[(table.length * 2) + 1];
 		for (int i = 0; i < table.length; i++) {
 			for (Entry<K, V> item : table[i]) {
@@ -156,14 +161,12 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 		return null;
 	}
 
-	private int getIndex(K key) {
-		int index = key.hashCode() % table.length;
-		if (index < 0) {
-			index += table.length;
-		}
-		return index;
-	}
 	
+	/**
+	 * Provides string representation of data in table
+	 * @return	
+	 * 		returns string representation of data in table. if table is empty, returns empty string.
+	 */
 	public String toString(){
 		String tableAsString = "";
 		for(int i = 0; i < table.length; i++){
@@ -172,7 +175,7 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 				tableAsString = tableAsString + "null";
 			}else{
 				for(Entry<K,V> item: table[i]){
-					tableAsString = tableAsString + item.toString()+"---";
+					tableAsString = tableAsString + item.toString()+"\t";
 					
 				}
 			}
@@ -200,7 +203,17 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 	private class SetIterator implements Iterator<Entry<K, V>> {
 		int index = 0;
 		Iterator<Entry<K, V>> localIterator = null;
+		Entry<K,V> lastItemReturned = null;
+		
+		public java.util.Set<Entry<K, V>> entrySet() {
+			return new EntrySet();
+		}
 
+		/**
+		 * Informs whether the set has more entries or not
+		 * @return		
+		 * 		returns true if there are more entries. otherwise, false
+		 */
 		@Override
 		public boolean hasNext() {
 			if (localIterator != null) {
@@ -220,19 +233,28 @@ public class HashTableChain<K, V> extends AbstractMap<K, V> implements Map<K, V>
 			localIterator = table[index].iterator();
 			return localIterator.hasNext();
 		}
+		/**
+		 * returns the next item in the set. assumes hasNext is true.
+		 * @return		
+		 * 		returns next item in the set
+		 */
 
 		@Override
 		public Entry<K, V> next() {
-			return null;
+			lastItemReturned = localIterator.next();
+			return lastItemReturned;
 		}
 
+		/**
+		 * Removes the last item returned form the list.  assume next was previously called.
+		 */
 		@Override
 		public void remove() {
+			localIterator.remove();
+			lastItemReturned = null;
 		}
 
-		public java.util.Set<Entry<K, V>> entrySet() {
-			return new EntrySet();
-		}
+		
 	}
 
 	private class Entry<K, V> {

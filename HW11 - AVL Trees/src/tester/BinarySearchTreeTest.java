@@ -7,7 +7,7 @@ import edu.miracosta.cs113.BinarySearchTree;
 
 
 
-public class BinaryTreeTest {
+public class BinarySearchTreeTest {
 	
 	@Test
 	public void testAdd(){
@@ -15,9 +15,7 @@ public class BinaryTreeTest {
 		Assert.assertTrue(st.add(7));
 		Assert.assertFalse(st.add(7));
 		Assert.assertTrue(st.add(1));
-		st.add(7);
-		st.add(9);
-		st.add(5);
+		
 		
 	}
 	

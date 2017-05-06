@@ -178,7 +178,7 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
 	 *            local roots parent
 	 * @return returns data of rightmost root
 	 */
-	private E rightmostNodeDataAndRemove(Node<E> localRoot, Node<E> parentRoot) {
+	protected E rightmostNodeDataAndRemove(Node<E> localRoot, Node<E> parentRoot) {
 		if (localRoot.right == null) {
 			parentRoot.right = localRoot.left;
 			return localRoot.data;

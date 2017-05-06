@@ -14,12 +14,12 @@ public class AVLtester {
 	
 		AVLTree<Integer> st = new AVLTree<Integer>();
 		Assert.assertTrue(st.add(10));
-		Assert.assertTrue(st.add(11));
-		Assert.assertTrue(st.add(12));
 		Assert.assertTrue(st.add(15));
-		Assert.assertTrue(st.add(16));
+		Assert.assertTrue(st.add(13));
+		Assert.assertTrue(st.add(22));
 		Assert.assertTrue(st.add(18));
-//		Assert.assertTrue(st.add(4));
+		Assert.assertTrue(st.add(20));
+		Assert.assertTrue(st.add(19));
 //		Assert.assertTrue(st.add(3));
 		System.out.println(st.toString());
 

@@ -54,6 +54,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 
 			if (increase) {
 				incrementBalance(localRoot);
+				//System.out.println("incrementing local root: "+ localRoot.data+"  pre-inc. bal: "+localRoot.balance );
 				if (localRoot.balance > AVLNode.RIGHT_HEAVY) {
 					increase = false;
 					return rebalanceRight(localRoot);
@@ -66,7 +67,6 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	}
 
 	private AVLNode<E> rebalanceLeft(AVLNode<E> localRoot) {
-		System.out.println("rebalancing left on: " + localRoot.data);
 		AVLNode nextLeft = (AVLNode) localRoot.left;
 		if (nextLeft.balance < AVLNode.BALANCED) {
 			incrementBalance(nextLeft);
@@ -85,15 +85,23 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 
 	private AVLNode<E> rebalanceRight(AVLNode<E> localRoot) {
 		System.out.println("reb right entered: "+localRoot.data+"  bal: "+localRoot.balance);
-		AVLNode nextRight = (AVLNode) localRoot.right;
+		AVLNode nextRight = (AVLNode <E>) localRoot.right;
+		//System.out.println("nextright :"+nextRight.data+"  bal: "+nextRight.balance);
 		if (nextRight.balance > AVLNode.BALANCED) {
+			System.out.println("rot left on "+localRoot.data+"  bal: "+localRoot.balance);
 			decrementBalance(nextRight);
 			decrementBalance(localRoot);
+			decrementBalance(localRoot);
+			System.out.println("rot left on "+localRoot.data+" new bal: "+localRoot.balance);
 			return (AVLTree<E>.AVLNode<E>) rotateLeft(localRoot);
 		} else {
-			incrementBalance(nextRight);
-			localRoot.left = rotateRight(localRoot.left);
+		
+			System.out.println("rotating right on :"+localRoot.right.data+" bal: "+nextRight.balance); 
+			incrementBalance((AVLNode <E>)localRoot.right);
+			localRoot.right = rotateRight(localRoot.right);
+			
 			decrementBalance(localRoot);
+			System.out.println("rot left: "+localRoot.data+"  bal: "+(localRoot.balance));
 			return (AVLTree<E>.AVLNode<E>) rotateLeft(localRoot);
 
 		}

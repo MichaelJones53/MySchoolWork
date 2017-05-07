@@ -4,10 +4,12 @@ import edu.miracosta.cs113.BinaryTree.Node;
 
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
 	private boolean increase;
+	private boolean decrease;
 
 	@Override
 	public boolean add(E item) {
 		increase = false;
+		decrease = false;
 		root = add((AVLNode<E>) root, item);
 		return addReturn;
 	}
@@ -76,17 +78,14 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	 */
 	private AVLNode<E> rebalanceLeft(AVLNode<E> localRoot) {
 		AVLNode<E> nextLeft = (AVLNode<E>) localRoot.left;
-		AVLNode<E> nextNextLeft = (AVLNode<E>) localRoot.left.left;
-		System.out.println("************reb-Left*******");
 
 		if (nextLeft.balance > AVLNode.BALANCED) {
-			System.out.println(" > entered (Left-RIght");
-		AVLNode<E> nextLeftRight = (AVLNode<E>) localRoot.left.right;
+			AVLNode<E> nextLeftRight = (AVLNode<E>) localRoot.left.right;
 
-			if(nextLeftRight.balance < AVLNode.BALANCED){
+			if (nextLeftRight.balance < AVLNode.BALANCED) {
 				incrementBalance(nextLeftRight);
 				incrementBalance(localRoot);
-			}else if(nextLeftRight.balance > AVLNode.BALANCED){
+			} else if (nextLeftRight.balance > AVLNode.BALANCED) {
 				decrementBalance(nextLeftRight);
 				decrementBalance(nextLeft);
 			}
@@ -95,23 +94,16 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 			localRoot.left = rotateLeft(localRoot.left);
 			incrementBalance(localRoot);
 			incrementBalance(localRoot);
-			System.out.println("data: " + localRoot.data + "  new bal: " + localRoot.balance);
-			System.out.println("***********************");
+
 			return (AVLTree<E>.AVLNode<E>) rotateRight(localRoot);
 
 		} else {
 
-			System.out.println(" < entered (Left-Left");
-
 			incrementBalance(nextLeft);
-			System.out.println("data: " + nextLeft.data + "  new bal: " + nextLeft.balance);
-			System.out.println("data: " + nextLeft.left.data + "  bal: " + nextNextLeft.balance);
 
 			incrementBalance(localRoot);
 			incrementBalance(localRoot);
 
-			System.out.println("data: " + localRoot.data + "  double dec to new bal: " + localRoot.balance);
-			System.out.println("***********************");
 			return (AVLTree<E>.AVLNode<E>) rotateRight(localRoot);
 
 		}
@@ -127,31 +119,32 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	 * @return returns rebalanced tree
 	 */
 	private AVLNode<E> rebalanceRight(AVLNode<E> localRoot) {
-		System.out.println("********rebRight***************");
-		AVLNode nextRight = (AVLNode<E>) localRoot.right;
-		AVLNode nextNextRight = (AVLNode<E>) localRoot.right.right;
-		// System.out.println("nextright :"+nextRight.data+" bal:
-		// "+nextRight.balance);
+		AVLNode<E> nextRight = (AVLNode<E>) localRoot.right;
 
 		if (nextRight.balance > AVLNode.BALANCED) {
-			System.out.println(" > entered (Right-RIght)");
 			decrementBalance(nextRight);
 			decrementBalance(localRoot);
 			decrementBalance(localRoot);
-			System.out.println("***********************");
+
 			return (AVLTree<E>.AVLNode<E>) rotateLeft(localRoot);
 		} else {
-			System.out.println(" < entered (Right-Left)");
+			AVLNode<E> rightLeft = (AVLNode<E>) localRoot.right.left;
 			incrementBalance((AVLNode<E>) localRoot.right);
+
+			if (rightLeft.balance < AVLNode.BALANCED) {
+				incrementBalance(nextRight);
+				incrementBalance((AVLNode<E>) nextRight.left);
+
+			} else if (rightLeft.balance > AVLNode.BALANCED) {
+				decrementBalance(localRoot);
+				decrementBalance((AVLNode<E>) nextRight.left);
+			}
 
 			localRoot.right = rotateRight(localRoot.right);
 
-			System.out.println("rotating left on " + localRoot.data);
+			decrementBalance(localRoot);
+			decrementBalance(localRoot);
 
-			decrementBalance(localRoot);
-			decrementBalance(localRoot);
-			System.out.println("data: " + localRoot.data + "  double dec to new bal: " + localRoot.balance);
-			System.out.println("***********************");
 			return (AVLTree<E>.AVLNode<E>) rotateLeft(localRoot);
 
 		}
@@ -213,46 +206,52 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 					return null;
 				} else if (localRoot.left == null) {
 					return localRoot.right;
+
 				} else if (localRoot.right == null) {
 					return localRoot.left;
-				} else {
-					if (localRoot.left.right == null) {
-						localRoot.left.right = localRoot.right;
-						return localRoot.left;
+				} else if (localRoot.left.right == null) {
+					localRoot.data = localRoot.left.data;
+					localRoot.left = localRoot.left.left;
+					incrementBalance(localRoot);
+
+					if (localRoot.balance > AVLNode.RIGHT_HEAVY) {
+						increase = false;
+						return rebalanceRight(localRoot);
 					}
-
-					localRoot.data = rightmostNodeDataAndRemove(localRoot.left, localRoot.left);
-
+					return localRoot;
+				} else {
+					localRoot.data = rightmostNodeDataAndRemove((AVLNode<E>) localRoot.left, localRoot);
+					if (decrease) {
+						incrementBalance(localRoot);
+						if (localRoot.balance > AVLNode.RIGHT_HEAVY) {
+							return rebalanceLeft(localRoot);
+						}
+					}
+					return localRoot;
 				}
 
 			} else if (compResult < 0) {
 				// item is less than localRoot.data
 				localRoot.left = delete((AVLNode<E>) localRoot.left, target);
-				System.out.println("looking left.  increase=" + increase);
-				if (increase) {
+				if (decrease) {
 					incrementBalance(localRoot);
-					System.out.println("Inc locRoot: " + localRoot.data + "new bal: " + localRoot.balance);
 					if (localRoot.balance > AVLNode.RIGHT_HEAVY) {
-						increase = false;
-						return rebalanceRight(localRoot);
+						return rebalanceLeft(localRoot);
 					}
-
 				}
 			} else {
 				// item is greater than localRoot.data
-				System.out.println("looking right.  increase=" + increase);
-				localRoot.right = delete((AVLNode<E>) localRoot.right, target);
-				if (increase) {
+				localRoot.right = delete((AVLNode<E>) localRoot.left, target);
+				if (decrease) {
 					decrementBalance(localRoot);
-					System.out.println("dec locRoot: " + localRoot.data + "new bal: " + localRoot.balance);
 					if (localRoot.balance < AVLNode.LEFT_HEAVY) {
-						increase = false;
-
 						return rebalanceLeft(localRoot);
 					}
 				}
 			}
+
 		}
+
 		return localRoot;
 	}
 
@@ -266,15 +265,21 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	 *            local roots parent
 	 * @return returns data of rightmost root
 	 */
-	@Override
-	protected E rightmostNodeDataAndRemove(Node<E> localRoot, Node<E> parentRoot) {
+
+	private E rightmostNodeDataAndRemove(AVLNode<E> localRoot, AVLNode<E> parentRoot) {
+		System.out.println("localRoot: " + parentRoot.data);
 		if (localRoot.right == null) {
-			decrementBalance((AVLNode<E>) parentRoot);
-			parentRoot.right = localRoot.left;
-			return localRoot.data;
+			E temp = localRoot.data;
+			localRoot = (AVLNode<E>) localRoot.left;
+			if (parentRoot.left == null) {
+				decrease = true;
+
+			}
+			parentRoot.right = null;
+			return temp;
 		} else {
 
-			return rightmostNodeDataAndRemove(localRoot.right, localRoot);
+			return rightmostNodeDataAndRemove((AVLNode<E>) localRoot.right, localRoot);
 		}
 	}
 
@@ -295,10 +300,10 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 			super(data);
 			balance = 0;
 		}
-		
+
 		@Override
-		public String toString(){
-			return data.toString()+" ("+balance+")";
+		public String toString() {
+			return data.toString() + " (" + balance + ")";
 		}
 
 	}

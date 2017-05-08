@@ -5,10 +5,10 @@ public class Main {
 	public static void main(String[] args){
 		BinarySearchTree<Integer> searchTree = new BinarySearchTree<Integer>();
 		AVLTree<Integer> avlTree = new AVLTree<Integer>();
-		int[] data = new int[1000];
+		int[] data = new int[20];
 		
 		for(int i = 0; i< data.length; i++){
-			data[i] = (int)Math.floor(Math.random() *1001); 
+			data[i] = (int)Math.floor(Math.random() *21); 
 		}
 		
 		for(int i = 0; i< data.length; i++){

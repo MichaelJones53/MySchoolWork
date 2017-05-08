@@ -186,6 +186,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	public E delete(E target) {
 
 		increase = false;
+		decrease = false;
 		deleteReturn = null;
 		root = delete((AVLNode<E>) root, target);
 		return deleteReturn;
@@ -200,16 +201,19 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 			int compResult = target.compareTo(localRoot.data);
 			if (compResult == 0) {
 				deleteReturn = localRoot.data;
-				increase = true;
+				decrease = true;
 
 				if (localRoot.left == null && localRoot.right == null) {
 					return null;
 				} else if (localRoot.left == null) {
+					//decrease = true;
 					return localRoot.right;
 
 				} else if (localRoot.right == null) {
+					//decrease = true;
 					return localRoot.left;
 				} else if (localRoot.left.right == null) {
+					//decrease = true;
 					localRoot.data = localRoot.left.data;
 					localRoot.left = localRoot.left.left;
 					incrementBalance(localRoot);
@@ -236,7 +240,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 				if (decrease) {
 					incrementBalance(localRoot);
 					if (localRoot.balance > AVLNode.RIGHT_HEAVY) {
-						return rebalanceLeft(localRoot);
+						return rebalanceRight(localRoot);
 					}
 				}
 			} else {
@@ -267,15 +271,17 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	 */
 
 	private E rightmostNodeDataAndRemove(AVLNode<E> localRoot, AVLNode<E> parentRoot) {
-		System.out.println("localRoot: " + parentRoot.data);
+		
 		if (localRoot.right == null) {
 			E temp = localRoot.data;
 			localRoot = (AVLNode<E>) localRoot.left;
+			decrease = false;
+			
 			if (parentRoot.left == null) {
 				decrease = true;
-
+				decrementBalance(parentRoot);
 			}
-			parentRoot.right = null;
+			parentRoot.right = localRoot;
 			return temp;
 		} else {
 

@@ -1,6 +1,6 @@
 package edu.miracosta.cs113;
 
-import edu.miracosta.cs113.BinaryTree.Node;
+
 
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
 	private boolean increase;
@@ -182,6 +182,13 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 		}
 	}
 
+	/**
+	 * removes target from tree and returns it
+	 * 
+	 * @param target
+	 *            target to be removed from tree
+	 * @return returns target if found and removed. otherwise, returns null
+	 */
 	@Override
 	public E delete(E target) {
 
@@ -192,6 +199,17 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 		return deleteReturn;
 	}
 
+	
+	/**
+	 * Helper Method. deletes the target node if in tree.
+	 * 
+	 * @param localRoot
+	 *            current root being examined
+	 * @param target
+	 *            data to be removed
+	 * @return returns reference to the node that containds the data to be
+	 *         removed. otherwise returns false
+	 */
 	private Node<E> delete(AVLNode<E> localRoot, E target) {
 		if (localRoot == null) {
 			deleteReturn = null;
